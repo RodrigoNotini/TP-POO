@@ -183,25 +183,28 @@ def tela_game_over():
 def tela_pause():
     global pause, p
     pause_menu = True
-    pause_start_time = time.time()
     while pause_menu:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-        screen.fill((0,0,0))
-        render_text("PAUSADO", fonte_grande, (255,255,255), screen, LARGURA//2, 400, centro=True)
-        render_text("PRESSIONE 'p' PARA CONTINUAR.\nVOCE TERA\n3 SEGUNDOS PARA\n     VOLTAR AO JOGO.", fonte_pequena, (255,255,255), screen, LARGURA//2, 450, centro=True)
+            
+            # Detecta se a tecla 'p' foi pressionada
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_p:
+                # Atraso de 3 segundos antes de retomar o jogo
+                time.sleep(3)
+                pause_menu = False  # Sai do loop de pausa
+                pause = False       # Desativa o estado de pausa
+                p = 1               # Define a variável auxiliar
+
+        # Renderização da tela de pausa
+        screen.fill((0, 0, 0))
+        render_text("PAUSADO", fonte_grande, (255, 255, 255), screen, LARGURA // 2, 400, centro=True)
+        render_text("PRESSIONE 'p' PARA CONTINUAR.\nVOCE TERA\n3 SEGUNDOS PARA\n     VOLTAR AO JOGO.", fonte_pequena, (255, 255, 255), screen, LARGURA // 2, 450, centro=True)
         pygame.display.update()
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_p]:
-            pause_menu = False
-            pause = False
-            p =1
-        # implementa os 3 segundos depois de desligar o pause
-        if not pause_menu and pause == False:
-            time.sleep(3)
+
         clock.tick(FPS)
+
 
 def main():
     global delay, grid, pontos, run, pause, p, rodar, evento_limpar, primeira_execucao, nome, ja_executou
@@ -251,9 +254,9 @@ def main():
                     shape.rotaciona(grid)
                 if event.key == pygame.K_p:
                     pause = True
-                if event.key == pygame.K_x:
+                if event.key == pygame.K_x:      #tecla para pular peca
                     nshape = Formato()
-                if event.key == pygame.K_z:
+                if event.key == pygame.K_z:      #tecla para diminuir a velocidade de queda das pecas
                     delay =0.10
                 if event.key == pygame.K_c:
                     # Limpa a penultima linha e acresenta 100 pontos
@@ -263,14 +266,14 @@ def main():
         if not pause:
             if shape.y ==23 - shape.altura +1 or not shape.pode_mover(grid):
                 if shape.y ==0:
-                    tela_game_over()                                            #Se a peça mais a baixo do formato estiver na posicao 0, usuario perde o jogo
+                    tela_game_over()                                            #Se a peça mais "alta" do formato estiver na posicao 0, usuario perde o jogo
                 else:
                     shape.fixa_formato(grid)
-                    shape = nshape
+                    shape = nshape                                          #Se a peca nao pode mover, ela e fixada e uma nova peca e gerada
                     nshape = Formato()
                     del_linha(grid)
             if shape.pode_mover(grid):
-                shape.y +=1
+                shape.y +=1                                                #Faz a peca se mover verticalmente
             else:
                 shape.fixa_formato(grid)
                 shape = nshape
@@ -279,8 +282,9 @@ def main():
             pontos +=1
             desenha_grid_pygame(grid,shape,nshape)
             pygame.display.update()
-            time.sleep(delay)
+            time.sleep(delay)                                           #Delay entre as pecas, atualizacoes da tela
         else:
+            pause=True
             tela_pause()
         clock.tick(FPS)
 
