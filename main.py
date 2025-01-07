@@ -254,7 +254,7 @@ def main():
                 if event.key == pygame.K_x:
                     nshape = Formato()
                 if event.key == pygame.K_z:
-                    delay =0.07
+                    delay =0.10
                 if event.key == pygame.K_c:
                     # Limpa a penultima linha e acresenta 100 pontos
                     for x in range(len(grid[-2])):
@@ -265,19 +265,19 @@ def main():
                 if shape.y ==0:
                     tela_game_over()                                            #Se a peça mais a baixo do formato estiver na posicao 0, usuario perde o jogo
                 else:
-                    shape.colorir_formato(grid)
+                    shape.fixa_formato(grid)
                     shape = nshape
                     nshape = Formato()
                     del_linha(grid)
             if shape.pode_mover(grid):
                 shape.y +=1
             else:
-                shape.colorir_formato(grid)
+                shape.fixa_formato(grid)
                 shape = nshape
                 nshape = Formato()
                 del_linha(grid)
             pontos +=1
-            desenha_grid_pygame(grid, nshape)
+            desenha_grid_pygame(grid,shape,nshape)
             pygame.display.update()
             time.sleep(delay)
         else:
