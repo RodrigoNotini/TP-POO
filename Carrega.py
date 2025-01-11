@@ -12,7 +12,7 @@ pygame.mixer.init()
 
 # Carrega Imagens
 try:
-    BG_IMAGE = pygame.image.load('bg.png')
+    BG_IMAGE = pygame.image.load("bg.png")
     BG_IMAGE = pygame.transform.scale(BG_IMAGE, (LARGURA, ALTURA))
 except pygame.error as e:
     print(f"Error loading bg.png: {e}")

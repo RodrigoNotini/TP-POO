@@ -8,6 +8,7 @@ from Desenhos import *
 # Arquivo do leaderboard
 LEADERBOARD_FILE = "leaderboard.txt"
 
+
 # Função que exibe a tela principal do menu.
 # Permite ao usuário visualizar os highscores, controles e navegar para outras telas (créditos, detalhes).
 def main_menu_screen():
@@ -23,17 +24,40 @@ def main_menu_screen():
         # Renderização da tela principal do menu
         screen.fill((0, 0, 0))
         screen.blit(BG_IMAGE, (0, 0))
-        render_text("APERTE ESPACO PARA COMECAR", fonte_media, (255, 255, 255), screen, LARGURA // 2, 150, centro=True)
-        render_text("HIGHSCORES", fonte_grande, (255, 255, 255), screen, LARGURA // 2, 200, centro=True)
+        render_text(
+            "APERTE ESPACO PARA COMECAR",
+            fonte_media,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            150,
+            centro=True,
+        )
+        render_text(
+            "HIGHSCORES",
+            fonte_grande,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            200,
+            centro=True,
+        )
 
         # Exibição do leaderboard
         leaderboard = carrega_leaderboard()
         for idx, (player, pts) in enumerate(leaderboard):
-            render_text(f"{player}: {pts}", fonte_media, (255, 255, 255), screen, 90, 280 + idx * 30)
+            render_text(
+                f"{player}: {pts}",
+                fonte_media,
+                (255, 255, 255),
+                screen,
+                90,
+                280 + idx * 30,
+            )
 
         # Exibição dos controles do jogo
         controls = "CONTROLES:\n← or a PARA ESQUERDA\n→ or d PARA DIREITA\n↑ or w PARA ROTACIONAR\np PARA PAUSAR O JOGO\n(O JOGO INICIA EM 3 SEGUNDOS APOS DESPAUSAR)"
-        controls_lines = controls.split('\n')
+        controls_lines = controls.split("\n")
         for i, line in enumerate(controls_lines):
             render_text(line, fonte_pequena, (255, 255, 255), screen, 50, 650 + i * 20)
 
@@ -64,6 +88,7 @@ def main_menu_screen():
         pygame.display.update()
         clock.tick(FPS)
 
+
 # Função que exibe a tela de créditos.
 # Mostra os criadores do jogo e possui um botão "DONE" para voltar ao menu anterior.
 def tela_creditos():
@@ -78,7 +103,9 @@ def tela_creditos():
         screen.fill((0, 0, 0))
         screen.blit(BG_IMAGE, (0, 0))
         render_text("FEITO POR:", fonte_grande, (255, 255, 255), screen, 40, 320)
-        render_text("Rodrigo, Gabriel e Pedro", fonte_grande, (255, 255, 255), screen, 40, 350)
+        render_text(
+            "Rodrigo, Gabriel e Pedro", fonte_grande, (255, 255, 255), screen, 40, 350
+        )
 
         # Botão "DONE"
         mouse = pygame.mouse.get_pos()
@@ -96,6 +123,7 @@ def tela_creditos():
         pygame.display.update()
         clock.tick(FPS)
 
+
 # Função que exibe os detalhes do jogo.
 # Mostra o objetivo, os obstáculos e possíveis cheats para o jogador.
 def tela_detalhes():
@@ -112,28 +140,34 @@ def tela_detalhes():
 
         # Objetivo do jogo
         render_text("OBJETIVO DO JOGO", fonte_grande, (255, 255, 255), screen, 35, 50)
-        objective = ("No Tetris, seu objetivo é empilhar blocos\nem multiplas linhas e destruir eles\n\nUma linha e destruida quando ela esta\n\n"
-                     "Colete o maximo de pontos possiveis antes que o\njogo acabe para garantir seu lugar\nna leaderboard.\n\n"
-                     "Destruir cada linha faz gera um total de 100 pontos")
-        objective_lines = objective.split('\n')
+        objective = (
+            "No Tetris, seu objetivo é empilhar blocos\nem multiplas linhas e destruir eles\n\nUma linha e destruida quando ela esta\n\n"
+            "Colete o maximo de pontos possiveis antes que o\njogo acabe para garantir seu lugar\nna leaderboard.\n\n"
+            "Destruir cada linha faz gera um total de 100 pontos"
+        )
+        objective_lines = objective.split("\n")
         for i, line in enumerate(objective_lines):
             render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 80 + i * 20)
 
         # Obstáculos do jogo
         render_text("OBSTACULOS", fonte_grande, (255, 255, 255), screen, 35, 270)
-        obstacles = ("Ao longo do jogo voce sera desafiado\ncom certos obstaculos.\n\nA cada 300"
-                     "pontos,o jogo vai ficar mais rapido.\n\nA cada 500 pontos, uma linha indestrutivel "
-                     "sera adicionada no fundo da grid,\no que diminuira o seu espaço")
-        obstacles_lines = obstacles.split('\n')
+        obstacles = (
+            "Ao longo do jogo voce sera desafiado\ncom certos obstaculos.\n\nA cada 300"
+            "pontos,o jogo vai ficar mais rapido.\n\nA cada 500 pontos, uma linha indestrutivel "
+            "sera adicionada no fundo da grid,\no que diminuira o seu espaço"
+        )
+        obstacles_lines = obstacles.split("\n")
         for i, line in enumerate(obstacles_lines):
             render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 300 + i * 20)
 
         # Cheats
         render_text("CHEATS", fonte_grande, (255, 255, 255), screen, 120, 470)
-        cheats = ("Aperte 'x' para passar o bloco que esta vindo.\n\nAperte 'z' para desacelerar o jogo.\n"
-                  "(Efeitos especiais na pontuacao>300)\n\nAperte 'c' para destruir a linha mais ao fundo\n\nAperte 'ESC' "
-                  "para ativar a tecla do chefe.")
-        cheats_lines = cheats.split('\n')
+        cheats = (
+            "Aperte 'x' para passar o bloco que esta vindo.\n\nAperte 'z' para desacelerar o jogo.\n"
+            "(Efeitos especiais na pontuacao>300)\n\nAperte 'c' para destruir a linha mais ao fundo\n\nAperte 'ESC' "
+            "para ativar a tecla do chefe."
+        )
+        cheats_lines = cheats.split("\n")
         for i, line in enumerate(cheats_lines):
             render_text(line, fonte_pequena, (255, 255, 255), screen, 25, 500 + i * 20)
 
@@ -153,12 +187,13 @@ def tela_detalhes():
         pygame.display.update()
         clock.tick(FPS)
 
+
 # Função para registrar o nome do jogador.
 # Limita o nome a 3 caracteres e permite apenas caracteres alfanuméricos.
 def tela_registro_nome():
     global nome, ja_executou
     ativo = True
-    input_usuario = ''
+    input_usuario = ""
     while ativo:
         for evento in pygame.event.get():
             if evento.type == pygame.QUIT:
@@ -179,12 +214,36 @@ def tela_registro_nome():
         # Renderização da tela de registro do nome
         screen.fill((0, 0, 0))
         screen.blit(BG_IMAGE, (0, 0))
-        render_text("DIGITE SEU NOME", fonte_grande, (255, 255, 255), screen, LARGURA // 2, 400, centro=True)
-        render_text("(APENAS 3 LETRAS)", fonte_pequena, (255, 255, 255), screen, LARGURA // 2, 450, centro=True)
+        render_text(
+            "DIGITE SEU NOME",
+            fonte_grande,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            400,
+            centro=True,
+        )
+        render_text(
+            "(APENAS 3 LETRAS)",
+            fonte_pequena,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            450,
+            centro=True,
+        )
 
         # Caixa de input
         pygame.draw.rect(screen, (255, 255, 255), (LARGURA // 2 - 50, 500, 100, 40), 2)
-        render_text(input_usuario, fonte_grande, (255, 255, 255), screen, LARGURA // 2, 520, centro=True)
+        render_text(
+            input_usuario,
+            fonte_grande,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            520,
+            centro=True,
+        )
 
         pygame.display.update()
         clock.tick(FPS)
@@ -205,15 +264,40 @@ def tela_game_over():
         # Renderiza a tela de "Game Over".
         screen.fill((0, 0, 0))
         screen.blit(BG_IMAGE, (0, 0))
-        render_text("Game Over!", fonte_grande, (255, 0, 0), screen, LARGURA // 2, 300, centro=True)
-        render_text(f"Pontuação: {pontos}", fonte_media, (255, 255, 255), screen, LARGURA // 2, 350, centro=True)
-        render_text("Pressione Enter para reiniciar", fonte_pequena, (255, 255, 255), screen, LARGURA // 2, 400, centro=True)
+        render_text(
+            "Game Over!",
+            fonte_grande,
+            (255, 0, 0),
+            screen,
+            LARGURA // 2,
+            300,
+            centro=True,
+        )
+        render_text(
+            f"Pontuação: {pontos}",
+            fonte_media,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            350,
+            centro=True,
+        )
+        render_text(
+            "Pressione Enter para reiniciar",
+            fonte_pequena,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            400,
+            centro=True,
+        )
         pygame.display.update()
 
         # Verifica se a tecla Enter foi pressionada para reiniciar o jogo.
         keys = pygame.key.get_pressed()
         if keys[pygame.K_RETURN]:
             main()
+
 
 def tela_pause():
     """
@@ -224,22 +308,43 @@ def tela_pause():
     pause_menu = True
     while pause_menu:
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:  # Encerra o jogo caso o jogador feche a janela.
+            if (
+                event.type == pygame.QUIT
+            ):  # Encerra o jogo caso o jogador feche a janela.
                 pygame.quit()
                 sys.exit()
 
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_p:  # Detecta a tecla 'p' para sair da pausa.
+            if (
+                event.type == pygame.KEYDOWN and event.key == pygame.K_p
+            ):  # Detecta a tecla 'p' para sair da pausa.
                 time.sleep(3)  # Pausa de 3 segundos antes de retomar o jogo.
                 pause_menu = False  # Sai do menu de pausa.
-                pause = False       # Desativa o estado de pausa.
-                p = 1               # Variável auxiliar usada para controle.
+                pause = False  # Desativa o estado de pausa.
+                p = 1  # Variável auxiliar usada para controle.
 
         # Renderiza a tela de pausa.
         screen.fill((0, 0, 0))
-        render_text("PAUSADO", fonte_grande, (255, 255, 255), screen, LARGURA // 2, 400, centro=True)
-        render_text("PRESSIONE 'p' PARA CONTINUAR.\nVOCE TERA\n3 SEGUNDOS PARA\n     VOLTAR AO JOGO.", fonte_pequena, (255, 255, 255), screen, LARGURA // 2, 450, centro=True)
+        render_text(
+            "PAUSADO",
+            fonte_grande,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            400,
+            centro=True,
+        )
+        render_text(
+            "PRESSIONE 'p' PARA CONTINUAR.\nVOCE TERA\n3 SEGUNDOS PARA\n     VOLTAR AO JOGO.",
+            fonte_pequena,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            450,
+            centro=True,
+        )
         pygame.display.update()
         clock.tick(FPS)
+
 
 def main():
     """
@@ -255,27 +360,27 @@ def main():
     evento_limpar = False
     pontos = 0
     grid = [  # Matriz representando o tabuleiro do jogo.
-    [0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,0,0,0,0,0,0,0,0,0,0,0,0,8],
-    [8,8,8,8,8,8,8,8,8,8,8,8,8,8],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
+        [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
     ]
     shape = Formato()  # Peça atual.
     nshape = Formato()  # Próxima peça.
@@ -307,7 +412,9 @@ def main():
 
         if not pause:  # Continua o jogo se não estiver em pausa.
             if shape.y == 23 - shape.altura + 1 or not shape.pode_mover(grid):
-                if shape.y == 0:  # Verifica se a peça alcançou o topo, encerrando o jogo.
+                if (
+                    shape.y == 0
+                ):  # Verifica se a peça alcançou o topo, encerrando o jogo.
                     tela_game_over()
                 else:
                     shape.fixa_formato(grid)  # Fixa a peça na posição final.
@@ -330,6 +437,7 @@ def main():
             tela_pause()
         clock.tick(FPS)
 
+
 def start_game():
     """
     Função inicial que exibe o menu principal, registra o nome do jogador e inicia o jogo.
@@ -337,6 +445,7 @@ def start_game():
     main_menu_screen()
     tela_registro_nome()
     main()
+
 
 if __name__ == "__main__":
     start_game()
