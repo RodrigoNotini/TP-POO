@@ -68,7 +68,7 @@ def tela_creditos():
         screen.blit(BG_IMAGE, (0,0))
         render_text("FEITO POR:", fonte_grande, (255,255,255), screen, 40, 320)
         render_text("Rodrigo, Gabriel e Pedro", fonte_grande, (255,255,255), screen, 40, 350)
-        # DONE Button
+        # Botao Voltar
         mouse = pygame.mouse.get_pos()
         click = False
         if pygame.mouse.get_pressed()[0]:
@@ -98,8 +98,8 @@ def tela_detalhes():
         objective = ("No Tetris, seu objetivo é empilhar blocos\nem multiplas linhas e destruir eles\n\nUma linha e destruida quando ela esta\n\n"
                      "Colete o maximo de pontos possiveis antes que o\njogo acabe para garantir seu lugar\nna leaderboard.\n\n"
                      "Destruir cada linha faz gera um total de 100 pontos")
-        objective_lines = objective.split('\n')
-        for i, line in enumerate(objective_lines):
+        linhas_objetivos = objective.split('\n')
+        for i, line in enumerate(linhas_objetivos):
             render_text(line, fonte_pequena, (255,255,255), screen, 35, 80 + i*20)
         # Obstaculos do jogo
         render_text("OBSTACULOS", fonte_grande, (255,255,255), screen, 35, 270)
@@ -117,7 +117,7 @@ def tela_detalhes():
         cheats_lines = cheats.split('\n')
         for i, line in enumerate(cheats_lines):
             render_text(line, fonte_pequena, (255,255,255), screen, 25, 500 + i*20)
-        # DONE Button
+        # Botao Voltar
         mouse = pygame.mouse.get_pos()
         click = False
         if pygame.mouse.get_pressed()[0]:
@@ -128,7 +128,7 @@ def tela_detalhes():
                 return
         else:
             pygame.draw.rect(screen, (150,150,150), (160,655,80,30))
-        render_text("DONE", fonte_media, (0,0,0), screen, 200, 670, centro=True)
+        render_text("VOLTAR", fonte_media, (0,0,0), screen, 200, 670, centro=True)
         pygame.display.update()
         clock.tick(FPS)
 
