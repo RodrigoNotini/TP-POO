@@ -32,7 +32,7 @@ def desenha_formato(formato):
 
 # Desenha a grid completa, com peças e pontuação
 def desenha_grid_pygame(grid, shape, proximo_formato):
-    screen.blit(BG_IMAGE, (0, 0))  # Copia a imagem de fundo para a tela
+    screen.blit(GAME_BG_IMAGE, (0, 0))  # Copia a imagem de fundo para a tela
 
     # Desenha a grade
     for y in range(len(grid)):

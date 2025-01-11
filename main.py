@@ -1,7 +1,5 @@
 import pygame
-import random
 import time
-import os
 import sys
 from Desenhos import *
 
@@ -23,7 +21,7 @@ def main_menu_screen():
                     return
         # Renderização da tela principal do menu
         screen.fill((0, 0, 0))
-        screen.blit(BG_IMAGE, (0, 0))
+        screen.blit(MENU_BG_IMAGE, (0, 0))
         render_text(
             "APERTE ESPACO PARA COMECAR",
             fonte_media,
@@ -101,7 +99,7 @@ def tela_creditos():
                 return
 
         screen.fill((0, 0, 0))
-        screen.blit(BG_IMAGE, (0, 0))
+        screen.blit(MENU_BG_IMAGE, (0, 0))
         render_text("FEITO POR:", fonte_grande, (255, 255, 255), screen, 40, 320)
         render_text(
             "Rodrigo, Gabriel e Pedro", fonte_grande, (255, 255, 255), screen, 40, 350
@@ -136,7 +134,7 @@ def tela_detalhes():
                 return
 
         screen.fill((0, 0, 0))
-        screen.blit(BG_IMAGE, (0, 0))
+        screen.blit(MENU_BG_IMAGE, (0, 0))
 
         # Objetivo do jogo
         render_text("OBJETIVO DO JOGO", fonte_grande, (255, 255, 255), screen, 35, 50)
@@ -213,7 +211,7 @@ def tela_registro_nome():
 
         # Renderização da tela de registro do nome
         screen.fill((0, 0, 0))
-        screen.blit(BG_IMAGE, (0, 0))
+        screen.blit(MENU_BG_IMAGE, (0, 0))
         render_text(
             "DIGITE SEU NOME",
             fonte_grande,
@@ -263,7 +261,7 @@ def tela_game_over():
                 sys.exit()
         # Renderiza a tela de "Game Over".
         screen.fill((0, 0, 0))
-        screen.blit(BG_IMAGE, (0, 0))
+        screen.blit(MENU_BG_IMAGE, (0, 0))
         render_text(
             "Game Over!",
             fonte_grande,
