@@ -23,21 +23,30 @@ def main_menu_screen():
         screen.fill((0, 0, 0))
         screen.blit(MENU_BG_IMAGE, (0, 0))
         render_text(
-            "APERTE ESPACO PARA COMECAR",
-            fonte_media,
+            "TETRIS",
+            fonte_titulo,
             (255, 255, 255),
             screen,
             LARGURA // 2,
-            150,
+            120,
             centro=True,
         )
         render_text(
-            "HIGHSCORES",
+            "APERTE ESPACO PARA COMECAR",
             fonte_grande,
             (255, 255, 255),
             screen,
             LARGURA // 2,
-            200,
+            180,
+            centro=True,
+        )
+        render_text(
+            "MELHORES PONTUACOES",
+            fonte_media,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            280,
             centro=True,
         )
 
@@ -45,19 +54,19 @@ def main_menu_screen():
         leaderboard = carrega_leaderboard()
         for idx, (player, pts) in enumerate(leaderboard):
             render_text(
-                f"{player}: {pts}",
+                f"{player}: -------------------------- {pts} pts",
                 fonte_media,
                 (255, 255, 255),
                 screen,
-                90,
-                280 + idx * 30,
+                LARGURA // 4,
+                320 + idx * 30,
             )
 
         # Exibição dos controles do jogo
         controls = "CONTROLES:\n← or a PARA ESQUERDA\n→ or d PARA DIREITA\n↑ or w PARA ROTACIONAR\np PARA PAUSAR O JOGO\n(O JOGO INICIA EM 3 SEGUNDOS APOS DESPAUSAR)"
         controls_lines = controls.split("\n")
         for i, line in enumerate(controls_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 50, 650 + i * 20)
+            render_text(line, fonte_pequena, (255, 255, 255), screen, 100, 600 + i * 16)
 
         # Botões interativos (créditos e detalhes)
         mouse = pygame.mouse.get_pos()
@@ -65,30 +74,30 @@ def main_menu_screen():
         if pygame.mouse.get_pressed()[0]:
             click = True
 
-        # Botão "CREDITS"
-        if 20 <= mouse[0] <= 120 and 468 <= mouse[1] <= 500:
-            pygame.draw.rect(screen, (100, 100, 100), (20, 468, 100, 32))
+        # Botão "CRÉDITOS"
+        if 100 <= mouse[0] <= 220 and 490 <= mouse[1] <= 610:
+            pygame.draw.rect(screen, (100, 100, 100), (100, 490, 120, 40))
             if click:
                 tela_creditos()
         else:
-            pygame.draw.rect(screen, (150, 150, 150), (20, 468, 100, 32))
-        render_text("CREDITS", fonte_media, (0, 0, 0), screen, 70, 480, centro=True)
+            pygame.draw.rect(screen, (150, 150, 150), (100, 490, 120, 40))
+        render_text("CRÉDITOS", fonte_media, (0, 0, 0), screen, 160, 510, centro=True)
 
-        # Botão "DETAILS"
-        if 280 <= mouse[0] <= 380 and 468 <= mouse[1] <= 500:
-            pygame.draw.rect(screen, (100, 100, 100), (280, 468, 100, 32))
+        # Botão "SOBRE O JOGO"
+        if 280 <= mouse[0] <= 400 and 490 <= mouse[1] <= 610:
+            pygame.draw.rect(screen, (100, 100, 100), (280, 490, 120, 40))
             if click:
                 tela_detalhes()
         else:
-            pygame.draw.rect(screen, (150, 150, 150), (280, 468, 100, 32))
-        render_text("DETAILS", fonte_media, (0, 0, 0), screen, 330, 480, centro=True)
+            pygame.draw.rect(screen, (150, 150, 150), (280, 490, 120, 40))
+        render_text("DETALHES", fonte_media, (0, 0, 0), screen, 340, 510, centro=True)
 
         pygame.display.update()
         clock.tick(FPS)
 
 
 # Função que exibe a tela de créditos.
-# Mostra os criadores do jogo e possui um botão "DONE" para voltar ao menu anterior.
+# Mostra os criadores do jogo e possui um botão "PRONTO" para voltar ao menu anterior.
 def tela_creditos():
     while True:
         for event in pygame.event.get():
@@ -105,18 +114,23 @@ def tela_creditos():
             "Rodrigo, Gabriel e Pedro", fonte_grande, (255, 255, 255), screen, 40, 350
         )
 
-        # Botão "DONE"
+        # Botão "PRONTO"
         mouse = pygame.mouse.get_pos()
         click = False
         if pygame.mouse.get_pressed()[0]:
             click = True
-        if 160 <= mouse[0] <= 240 and 470 <= mouse[1] <= 500:
-            pygame.draw.rect(screen, (100, 100, 100), (160, 470, 80, 30))
+        if (
+            LARGURA // 2 - 50 <= mouse[0] <= LARGURA // 2 + 50
+            and 580 <= mouse[1] <= 680
+        ):
+            pygame.draw.rect(screen, (100, 100, 100), (LARGURA // 2 - 50, 580, 100, 40))
             if click:
                 return
         else:
-            pygame.draw.rect(screen, (150, 150, 150), (160, 470, 80, 30))
-        render_text("DONE", fonte_media, (0, 0, 0), screen, 200, 485, centro=True)
+            pygame.draw.rect(screen, (150, 150, 150), (LARGURA // 2 - 50, 580, 100, 40))
+        render_text(
+            "PRONTO", fonte_media, (0, 0, 0), screen, LARGURA // 2, 600, centro=True
+        )
 
         pygame.display.update()
         clock.tick(FPS)
@@ -145,10 +159,10 @@ def tela_detalhes():
         )
         objective_lines = objective.split("\n")
         for i, line in enumerate(objective_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 80 + i * 20)
+            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 100 + i * 16)
 
         # Obstáculos do jogo
-        render_text("OBSTACULOS", fonte_grande, (255, 255, 255), screen, 35, 270)
+        render_text("OBSTACULOS", fonte_grande, (255, 255, 255), screen, 35, 300)
         obstacles = (
             "Ao longo do jogo voce sera desafiado\ncom certos obstaculos.\n\nA cada 300"
             "pontos,o jogo vai ficar mais rapido.\n\nA cada 500 pontos, uma linha indestrutivel "
@@ -156,10 +170,10 @@ def tela_detalhes():
         )
         obstacles_lines = obstacles.split("\n")
         for i, line in enumerate(obstacles_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 300 + i * 20)
+            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 350 + i * 16)
 
         # Cheats
-        render_text("CHEATS", fonte_grande, (255, 255, 255), screen, 120, 470)
+        render_text("CHEATS", fonte_grande, (255, 255, 255), screen, 35, 500)
         cheats = (
             "Aperte 'x' para passar o bloco que esta vindo.\n\nAperte 'z' para desacelerar o jogo.\n"
             "(Efeitos especiais na pontuacao>300)\n\nAperte 'c' para destruir a linha mais ao fundo\n\nAperte 'ESC' "
@@ -167,20 +181,25 @@ def tela_detalhes():
         )
         cheats_lines = cheats.split("\n")
         for i, line in enumerate(cheats_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 25, 500 + i * 20)
+            render_text(line, fonte_pequena, (255, 255, 255), screen, 25, 550 + i * 16)
 
-        # Botão "DONE"
+        # Botão "PRONTO"
         mouse = pygame.mouse.get_pos()
         click = False
         if pygame.mouse.get_pressed()[0]:
             click = True
-        if 160 <= mouse[0] <= 240 and 655 <= mouse[1] <= 685:
-            pygame.draw.rect(screen, (100, 100, 100), (160, 655, 80, 30))
+        if (
+            LARGURA // 2 - 50 <= mouse[0] <= LARGURA // 2 + 50
+            and 700 <= mouse[1] <= 800
+        ):
+            pygame.draw.rect(screen, (100, 100, 100), (LARGURA // 2 - 50, 700, 100, 40))
             if click:
                 return
         else:
-            pygame.draw.rect(screen, (150, 150, 150), (160, 655, 80, 30))
-        render_text("DONE", fonte_media, (0, 0, 0), screen, 200, 670, centro=True)
+            pygame.draw.rect(screen, (150, 150, 150), (LARGURA // 2 - 50, 700, 100, 40))
+        render_text(
+            "PRONTO", fonte_media, (0, 0, 0), screen, LARGURA // 2, 720, centro=True
+        )
 
         pygame.display.update()
         clock.tick(FPS)

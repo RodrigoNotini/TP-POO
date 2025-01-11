@@ -1,8 +1,4 @@
 import pygame
-import random
-import time
-import os
-import sys
 from Cores import *
 from Constantes import *
 from Carrega import *
