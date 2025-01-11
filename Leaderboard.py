@@ -37,7 +37,7 @@ def carrega_leaderboard():
         LEADERBOARD_FILE
     ):  # Cria LeaderBoard, separando nome de pontuação por vírgulas
         with open(LEADERBOARD_FILE, "w") as f:
-            f.write("AAA,100,BBB,90,CCC,80,DDD,70,EEE,60")
+            f.write("LAURA,100,JOAO,90,RODRI,80,DUDU,70,HENRI,60")
     with open(LEADERBOARD_FILE, "r") as f:
         data = f.read().strip().split(",")
     leaderboard = []

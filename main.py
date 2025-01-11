@@ -218,14 +218,14 @@ def tela_registro_nome():
                 sys.exit()
             if evento.type == pygame.KEYDOWN:
                 if evento.key == pygame.K_RETURN:
-                    if len(input_usuario) == 3:
+                    if len(input_usuario) > 3:
                         nome = input_usuario
                         ja_executou = True
                         ativo = False
                 elif evento.key == pygame.K_BACKSPACE:
                     input_usuario = input_usuario[:-1]
                 else:
-                    if len(input_usuario) < 3 and evento.unicode.isalnum():
+                    if len(input_usuario) < 5 and evento.unicode.isalnum():
                         input_usuario += evento.unicode.upper()
 
         # Renderização da tela de registro do nome
@@ -241,7 +241,7 @@ def tela_registro_nome():
             centro=True,
         )
         render_text(
-            "(APENAS 3 LETRAS)",
+            "(APENAS 5 LETRAS)",
             fonte_pequena,
             (255, 255, 255),
             screen,
@@ -420,7 +420,7 @@ def main():
                 if event.key == pygame.K_x:  # Pula para a próxima peça.
                     nshape = Formato()
                 if event.key == pygame.K_z:  # Diminui a velocidade de queda.
-                    delay = 0.20
+                    delay = 0.25
                 if event.key == pygame.K_c:
                     # Limpa a penúltima linha e adiciona 100 pontos.
                     for x in range(len(grid[-2])):
