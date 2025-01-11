@@ -1,8 +1,4 @@
 import pygame
-import random
-import time
-import os
-import sys
 from Cores import *
 from Constantes import *
 from Carrega import *
@@ -10,6 +6,7 @@ from Fontes import *
 from Globais import *
 from Formato import *
 from Leaderboard import *
+
 
 # Desenha o formato da peça
 def desenha_formato(formato):
@@ -19,30 +16,52 @@ def desenha_formato(formato):
         for x in range(formato.largura):
             if formato.formato[y][x] == 1:
                 color = CORES[formato.cor]
-                rect = pygame.Rect(direita + x*BLOCK_SIZE, topo + y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)   #Pos na tela por tam horizontal e vertical
+                rect = pygame.Rect(
+                    direita + x * BLOCK_SIZE,
+                    topo + y * BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE,
+                )  # Pos na tela por tam horizontal e vertical
                 pygame.draw.rect(screen, color, rect)
-                pygame.draw.rect(screen, (40,40,40), rect,1) 
+                pygame.draw.rect(screen, (40, 40, 40), rect, 1)
 
-#Desenha a grid completa, com peças e pontuação
+
+# Desenha a grid completa, com peças e pontuação
 def desenha_grid_pygame(grid, shape, proximo_formato):
-    screen.blit(BG_IMAGE, (0,0))  # Copia a imagem de fundo para a tela
+    screen.blit(GAME_BG_IMAGE, (0, 0))  # Copia a imagem de fundo para a tela
 
     # Desenha a grade
     for y in range(len(grid)):
         for x in range(len(grid[0])):
             color_num = grid[y][x]
             color = CORES[color_num]
-            pygame.draw.rect(screen, color, (110 + x*BLOCK_SIZE, 200 + y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE))  # Preenche o bloco
-            pygame.draw.rect(screen, (40,40,40), (110 + x*BLOCK_SIZE, 200 + y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE), 1)  # Preenche a borda
+            pygame.draw.rect(
+                screen,
+                color,
+                (110 + x * BLOCK_SIZE, 200 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE),
+            )  # Preenche o bloco
+            pygame.draw.rect(
+                screen,
+                (40, 40, 40),
+                (110 + x * BLOCK_SIZE, 200 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE),
+                1,
+            )  # Preenche a borda
 
     # Desenha a peça atual na posição correta
     for y in range(shape.altura):
         for x in range(shape.largura):
             if shape.formato[y][x] == 1:
                 color = CORES[shape.cor]
-                rect = pygame.Rect(110 + (shape.x + x) * BLOCK_SIZE, 200 + (shape.y + y) * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+                rect = pygame.Rect(
+                    110 + (shape.x + x) * BLOCK_SIZE,
+                    200 + (shape.y + y) * BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE,
+                )
                 pygame.draw.rect(screen, color, rect)  # Preenche o bloco da peça
-                pygame.draw.rect(screen, (40, 40, 40), rect, 1)  # Preenche a borda do bloco da peça
+                pygame.draw.rect(
+                    screen, (40, 40, 40), rect, 1
+                )  # Preenche a borda do bloco da peça
 
     # Desenha o próximo formato em uma área separada
     topo_proximo = 100
@@ -51,14 +70,18 @@ def desenha_grid_pygame(grid, shape, proximo_formato):
         for x in range(proximo_formato.largura):
             if proximo_formato.formato[y][x] == 1:
                 color = CORES[proximo_formato.cor]
-                rect = pygame.Rect(direita_proximo + x * BLOCK_SIZE, topo_proximo + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE)
+                rect = pygame.Rect(
+                    direita_proximo + x * BLOCK_SIZE,
+                    topo_proximo + y * BLOCK_SIZE,
+                    BLOCK_SIZE,
+                    BLOCK_SIZE,
+                )
                 pygame.draw.rect(screen, color, rect)
                 pygame.draw.rect(screen, (40, 40, 40), rect, 1)
 
     # Desenha a pontuação
     texto_pontuacao = fonte_media.render(f"Pontuação: {pontos}", True, (255, 255, 255))
     screen.blit(texto_pontuacao, (50, 30))
-
 
 
 def del_linha(grid):

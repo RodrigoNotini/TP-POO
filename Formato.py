@@ -3,36 +3,32 @@ import random
 import time
 import os
 import sys
-#Definindo possiveis formatos do jogo
+
+# Definindo possiveis formatos do jogo
 FORMATOS = {
-    'Quadrado': [[1, 1],
-               [1, 1]],
-    'horizontal': [[1, 1, 1, 1]],
-    'vertical': [[1],
-                [1],
-                [1],
-                [1]],
-    'LEsquerda': [[1, 0, 0],
-              [1, 1, 1]],
-    'LDireita': [[0, 0, 1],
-               [1, 1, 1]],
-    'ZDireita': [[0, 1, 1],
-               [1, 1, 0]],
-    'ZEsquerda': [[1, 1, 0],
-              [0, 1, 1]],
-    'T': [[0, 1, 0],
-          [1, 1, 1]]
+    "Quadrado": [[1, 1], [1, 1]],
+    "horizontal": [[1, 1, 1, 1]],
+    "vertical": [[1], [1], [1], [1]],
+    "LEsquerda": [[1, 0, 0], [1, 1, 1]],
+    "LDireita": [[0, 0, 1], [1, 1, 1]],
+    "ZDireita": [[0, 1, 1], [1, 1, 0]],
+    "ZEsquerda": [[1, 1, 0], [0, 1, 1]],
+    "T": [[0, 1, 0], [1, 1, 1]],
 }
 FORMATOS_list = list(FORMATOS.values())
 
 
 class Formato:
     def __init__(self):
-        self.x = 6        #posicao mais a esquerda do formato no grid
-        self.y = 0        #posicao mais acima do formato no grid
-        self.cor = random.randint(1,7)         #um inteiro que refere a uma serie de cores pre-definidas
+        self.x = 6  # posicao mais a esquerda do formato no grid
+        self.y = 0  # posicao mais acima do formato no grid
+        self.cor = random.randint(
+            1, 7
+        )  # um inteiro que refere a uma serie de cores pre-definidas
         self.contador = 0
-        self.formato = random.choice(FORMATOS_list) #formato sorteado aleatoriamente(matriz)
+        self.formato = random.choice(
+            FORMATOS_list
+        )  # formato sorteado aleatoriamente(matriz)
         self.altura = len(self.formato)
         self.largura = len(self.formato[0])
 
@@ -63,8 +59,15 @@ class Formato:
                     new_x = self.x + x + dx
                     new_y = self.y + y + dy
                     # Verifica se os índices estão dentro dos limites da grid
-                    if new_x < 0 or new_x >= len(grid[0]) or new_y < 0 or new_y >= len(grid):
-                        print(f"Erro de movimentação: ({new_x}, {new_y}) fora dos limites")
+                    if (
+                        new_x < 0
+                        or new_x >= len(grid[0])
+                        or new_y < 0
+                        or new_y >= len(grid)
+                    ):
+                        print(
+                            f"Erro de movimentação: ({new_x}, {new_y}) fora dos limites"
+                        )
                         return False
                     if grid[new_y][new_x] != 0:
                         return False
@@ -100,7 +103,12 @@ class Formato:
                 if rotated_shape[y][x] == 1:
                     new_x = self.x + x
                     new_y = self.y + y
-                    if new_y >= len(grid) or new_x >= len(grid[0]) or new_y < 0 or new_x < 0:
+                    if (
+                        new_y >= len(grid)
+                        or new_x >= len(grid[0])
+                        or new_y < 0
+                        or new_x < 0
+                    ):
                         return  # Colisão ou fora do grid
                     if grid[new_y][new_x] != 0:
                         return  # Colisão com outra peça
@@ -110,4 +118,3 @@ class Formato:
         self.formato = rotated_shape
         self.altura = new_altura
         self.largura = new_largura
-        
