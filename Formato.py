@@ -130,34 +130,41 @@ class Quadrado(Formato):
 
 class Horizontal(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["horizontal"])
+        horizontal_formato = [[1, 1, 1, 1]]
+        super().__init__(formato=horizontal_formato)
 
 
 class Vertical(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["vertical"])
+        vertical_formato = [[1], [1], [1], [1]]
+        super().__init__(formato=vertical_formato)
 
 
 class LEsquerda(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["LEsquerda"])
+        Lesquerda_formato = [[1, 0, 0], [1, 1, 1]]
+        super().__init__(formato=Lesquerda_formato)
 
 
 class LDireita(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["LDireita"])
+        Ldireita_formato = [[0, 0, 1], [1, 1, 1]]
+        super().__init__(formato=Ldireita_formato)
 
 
 class ZDireita(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["ZDireita"])
+        zdireita_formato = [[0, 1, 1], [1, 1, 0]]
+        super().__init__(formato=zdireita_formato)
 
 
 class ZEsquerda(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["ZEsquerda"])
+        zesquerda_formato = [[1, 1, 0], [0, 1, 1]]
+        super().__init__(formato=zesquerda_formato)
 
 
 class T(Formato):
     def __init__(self):
-        super().__init__(formato=FORMATOS["T"])
+        t_formato = [[0, 1, 0], [1, 1, 1]]
+        super().__init__(formato=t_formato)
