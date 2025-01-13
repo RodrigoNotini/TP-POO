@@ -378,6 +378,12 @@ def main():
     evento_limpar = False
     pontos = 0
     forcar_quadrado=False
+    forcar_L = False
+    forcar_Le = False
+    forcar_i = False
+    forcar_T = False
+    forcar_Zd = False
+    forcar_Ze = False
     grid = [  # Matriz representando o tabuleiro do jogo.
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
@@ -428,6 +434,30 @@ def main():
                     shape = Quadrado()  # Define a peça atual como Quadrado
                     nshape = Quadrado() # Garante que a próxima peça também será Quadrado
                     forcar_quadrado=True
+                if event.key == pygame.K_l:
+                    shape = LDireita()  # Define a peça atual como LDireita
+                    nshape = LDireita() # Garante que a próxima peça também será LDireita
+                    forcar_L=True
+                if event.key == pygame.K_j:
+                    shape = LEsquerda()  # Define a peça atual como LEsquerda
+                    nshape = LEsquerda() # Garante que a próxima peça também será LEsquerda
+                    forcar_Le=True
+                if event.key == pygame.K_i:
+                    shape = Vertical()  # Define a peça atual como Vertical
+                    nshape = Vertical() # Garante que a próxima peça também será Vertical
+                    forcar_i=True
+                if event.key == pygame.K_t:
+                    shape = T()  # Define a peça atual como T
+                    nshape = T() # Garante que a próxima peça também será T
+                    forcar_T=True
+                if event.key == pygame.K_n:
+                    shape = ZDireita()  # Define a peça atual como ZDireita
+                    nshape = ZDireita() # Garante que a próxima peça também será ZDireita
+                    forcar_Zd=True
+                if event.key == pygame.K_b:
+                    shape = ZEsquerda()  # Define a peça atual como ZEsquerda
+                    nshape = ZEsquerda() # Garante que a próxima peça também será Zesquerda
+                    forcar_Ze=True
 
                 if event.key == pygame.K_c:
                     # Limpa a penúltima linha e adiciona 100 pontos.
@@ -447,6 +477,30 @@ def main():
                     shape = Quadrado()
                     nshape = Quadrado()
                     forcar_quadrado = False
+                elif forcar_L:
+                    shape = LDireita()
+                    nshape = LDireita()
+                    forcar_L = False
+                elif forcar_Le:
+                    shape = LEsquerda()
+                    nshape = LEsquerda()
+                    forcar_Le = False
+                elif forcar_i:
+                    shape = Vertical()
+                    nshape = Vertical()
+                    forcar_i = False
+                elif forcar_T:
+                    shape = T() 
+                    nshape = T() 
+                    forcar_T = False
+                elif forcar_Zd:
+                    shape = ZDireita()
+                    nshape = ZDireita() 
+                    forcar_Zd = False
+                elif forcar_Ze:
+                    shape = ZEsquerda()
+                    nshape = ZEsquerda()
+                    forcar_Ze = False
                 else:
                     shape = nshape
                     nshape = Formato()
@@ -460,6 +514,30 @@ def main():
                     shape = Quadrado()
                     nshape = Quadrado()
                     forcar_quadrado = False
+                elif forcar_L:
+                    shape = LDireita()
+                    nshape = LDireita()
+                    forcar_L = False
+                elif forcar_Le:
+                    shape = LEsquerda()
+                    nshape = LEsquerda()
+                    forcar_Le = False
+                elif forcar_i:
+                    shape = Vertical()
+                    nshape = Vertical()
+                    forcar_i = False
+                elif forcar_T:
+                    shape = T() 
+                    nshape = T() 
+                    forcar_T = False
+                elif forcar_Zd:
+                    shape = ZDireita()
+                    nshape = ZDireita() 
+                    forcar_Zd = False
+                elif forcar_Ze:
+                    shape = ZEsquerda()
+                    nshape = ZEsquerda()
+                    forcar_Ze = False
                 else:
                     shape = nshape
                     nshape = Formato()
