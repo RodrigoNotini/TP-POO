@@ -19,18 +19,17 @@ FORMATOS_list = list(FORMATOS.values())
 
 
 class Formato:
-    def __init__(self):
+    def __init__(self, formato=None):
         self.x = 6  # posicao mais a esquerda do formato no grid
         self.y = 0  # posicao mais acima do formato no grid
         self.cor = random.randint(
             1, 7
         )  # um inteiro que refere a uma serie de cores pre-definidas
         self.contador = 0
-        self.formato = random.choice(
-            FORMATOS_list
-        )  # formato sorteado aleatoriamente(matriz)
+        self.formato = formato if formato else random.choice(FORMATOS_list)  # usa o formato passado ou sorteia
         self.altura = len(self.formato)
         self.largura = len(self.formato[0])
+
 
     def move_esquerda(self, grid):
         if self.x > 0 and self.pode_mover(grid, dx=-1):
@@ -113,8 +112,52 @@ class Formato:
                     if grid[new_y][new_x] != 0:
                         return  # Colisão com outra peça
 
+
         # Apaga o formato antigo, aplica a rotação e desenha o novo formato
         self.apaga_formato(grid)
         self.formato = rotated_shape
         self.altura = new_altura
         self.largura = new_largura
+
+
+#Subclasses da classe Formato, usadas para testes 
+class Quadrado(Formato):
+    def __init__(self):
+        # Define explicitamente o formato do quadrado
+        quadrado_formato = [[1, 1], [1, 1]]  # Define um quadrado 2x2
+        super().__init__(formato=quadrado_formato)
+
+
+class Horizontal(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["horizontal"])
+
+
+class Vertical(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["vertical"])
+
+
+class LEsquerda(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["LEsquerda"])
+
+
+class LDireita(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["LDireita"])
+
+
+class ZDireita(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["ZDireita"])
+
+
+class ZEsquerda(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["ZEsquerda"])
+
+
+class T(Formato):
+    def __init__(self):
+        super().__init__(formato=FORMATOS["T"])

@@ -5,6 +5,7 @@ from Desenhos import *
 
 # Arquivo do leaderboard
 LEADERBOARD_FILE = "leaderboard.txt"
+meuleaderboard=LeaderBoard("Banco de dados do jogo")
 
 
 # Função que exibe a tela principal do menu.
@@ -22,7 +23,7 @@ def main_menu_screen():
         # Renderização da tela principal do menu
         screen.fill((0, 0, 0))
         screen.blit(MENU_BG_IMAGE, (0, 0))
-        render_text(
+        meuleaderboard.render_text(
             "TETRIS",
             fonte_titulo,
             (255, 255, 255),
@@ -31,7 +32,7 @@ def main_menu_screen():
             120,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             "APERTE ESPACO PARA COMECAR",
             fonte_grande,
             (255, 255, 255),
@@ -40,7 +41,7 @@ def main_menu_screen():
             180,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             "MELHORES PONTUACOES",
             fonte_media,
             (255, 255, 255),
@@ -51,9 +52,9 @@ def main_menu_screen():
         )
 
         # Exibição do leaderboard
-        leaderboard = carrega_leaderboard()
+        leaderboard = meuleaderboard.carrega_leaderboard()
         for idx, (player, pts) in enumerate(leaderboard):
-            render_text(
+            meuleaderboard.render_text(
                 f"{player}: -------------------------- {pts} pts",
                 fonte_media,
                 (255, 255, 255),
@@ -66,7 +67,7 @@ def main_menu_screen():
         controls = "CONTROLES:\n← or a PARA ESQUERDA\n→ or d PARA DIREITA\n↑ or w PARA ROTACIONAR\np PARA PAUSAR O JOGO\n(O JOGO INICIA EM 3 SEGUNDOS APOS DESPAUSAR)"
         controls_lines = controls.split("\n")
         for i, line in enumerate(controls_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 100, 600 + i * 16)
+            meuleaderboard.render_text(line, fonte_pequena, (255, 255, 255), screen, 100, 600 + i * 16)
 
         # Botões interativos (créditos e detalhes)
         mouse = pygame.mouse.get_pos()
@@ -81,7 +82,7 @@ def main_menu_screen():
                 tela_creditos()
         else:
             pygame.draw.rect(screen, (150, 150, 150), (100, 490, 120, 40))
-        render_text("CRÉDITOS", fonte_media, (0, 0, 0), screen, 160, 510, centro=True)
+        meuleaderboard.render_text("CRÉDITOS", fonte_media, (0, 0, 0), screen, 160, 510, centro=True)
 
         # Botão "SOBRE O JOGO"
         if 280 <= mouse[0] <= 400 and 490 <= mouse[1] <= 610:
@@ -90,7 +91,7 @@ def main_menu_screen():
                 tela_detalhes()
         else:
             pygame.draw.rect(screen, (150, 150, 150), (280, 490, 120, 40))
-        render_text("DETALHES", fonte_media, (0, 0, 0), screen, 340, 510, centro=True)
+        meuleaderboard.render_text("DETALHES", fonte_media, (0, 0, 0), screen, 340, 510, centro=True)
 
         pygame.display.update()
         clock.tick(FPS)
@@ -109,8 +110,8 @@ def tela_creditos():
 
         screen.fill((0, 0, 0))
         screen.blit(MENU_BG_IMAGE, (0, 0))
-        render_text("FEITO POR:", fonte_grande, (255, 255, 255), screen, 40, 320)
-        render_text(
+        meuleaderboard.render_text("FEITO POR:", fonte_grande, (255, 255, 255), screen, 40, 320)
+        meuleaderboard.render_text(
             "Rodrigo, Gabriel e Pedro", fonte_grande, (255, 255, 255), screen, 40, 350
         )
 
@@ -128,7 +129,7 @@ def tela_creditos():
                 return
         else:
             pygame.draw.rect(screen, (150, 150, 150), (LARGURA // 2 - 50, 580, 100, 40))
-        render_text(
+        meuleaderboard.render_text(
             "PRONTO", fonte_media, (0, 0, 0), screen, LARGURA // 2, 600, centro=True
         )
 
@@ -151,7 +152,7 @@ def tela_detalhes():
         screen.blit(MENU_BG_IMAGE, (0, 0))
 
         # Objetivo do jogo
-        render_text("OBJETIVO DO JOGO", fonte_grande, (255, 255, 255), screen, 35, 50)
+        meuleaderboard.render_text("OBJETIVO DO JOGO", fonte_grande, (255, 255, 255), screen, 35, 50)
         objective = (
             "No Tetris, seu objetivo é empilhar blocos\nem multiplas linhas e destruir eles\n\nUma linha e destruida quando ela esta\n\n"
             "Colete o maximo de pontos possiveis antes que o\njogo acabe para garantir seu lugar\nna leaderboard.\n\n"
@@ -159,10 +160,10 @@ def tela_detalhes():
         )
         objective_lines = objective.split("\n")
         for i, line in enumerate(objective_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 100 + i * 16)
+            meuleaderboard.render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 100 + i * 16)
 
         # Obstáculos do jogo
-        render_text("OBSTACULOS", fonte_grande, (255, 255, 255), screen, 35, 300)
+        meuleaderboard.render_text("OBSTACULOS", fonte_grande, (255, 255, 255), screen, 35, 300)
         obstacles = (
             "Ao longo do jogo voce sera desafiado\ncom certos obstaculos.\n\nA cada 300"
             "pontos,o jogo vai ficar mais rapido.\n\nA cada 500 pontos, uma linha indestrutivel "
@@ -170,10 +171,10 @@ def tela_detalhes():
         )
         obstacles_lines = obstacles.split("\n")
         for i, line in enumerate(obstacles_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 350 + i * 16)
+            meuleaderboard.render_text(line, fonte_pequena, (255, 255, 255), screen, 35, 350 + i * 16)
 
         # Cheats
-        render_text("CHEATS", fonte_grande, (255, 255, 255), screen, 35, 500)
+        meuleaderboard.render_text("CHEATS", fonte_grande, (255, 255, 255), screen, 35, 500)
         cheats = (
             "Aperte 'x' para passar o bloco que esta vindo.\n\nAperte 'z' para desacelerar o jogo.\n"
             "(Efeitos especiais na pontuacao>300)\n\nAperte 'c' para destruir a linha mais ao fundo\n\nAperte 'ESC' "
@@ -181,7 +182,7 @@ def tela_detalhes():
         )
         cheats_lines = cheats.split("\n")
         for i, line in enumerate(cheats_lines):
-            render_text(line, fonte_pequena, (255, 255, 255), screen, 25, 550 + i * 16)
+            meuleaderboard.render_text(line, fonte_pequena, (255, 255, 255), screen, 25, 550 + i * 16)
 
         # Botão "PRONTO"
         mouse = pygame.mouse.get_pos()
@@ -197,7 +198,7 @@ def tela_detalhes():
                 return
         else:
             pygame.draw.rect(screen, (150, 150, 150), (LARGURA // 2 - 50, 700, 100, 40))
-        render_text(
+        meuleaderboard.render_text(
             "PRONTO", fonte_media, (0, 0, 0), screen, LARGURA // 2, 720, centro=True
         )
 
@@ -231,7 +232,7 @@ def tela_registro_nome():
         # Renderização da tela de registro do nome
         screen.fill((0, 0, 0))
         screen.blit(MENU_BG_IMAGE, (0, 0))
-        render_text(
+        meuleaderboard.render_text(
             "DIGITE SEU NOME",
             fonte_grande,
             (255, 255, 255),
@@ -240,7 +241,7 @@ def tela_registro_nome():
             400,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             "(APENAS 5 LETRAS)",
             fonte_pequena,
             (255, 255, 255),
@@ -252,7 +253,7 @@ def tela_registro_nome():
 
         # Caixa de input
         pygame.draw.rect(screen, (255, 255, 255), (LARGURA // 2 - 50, 500, 100, 40), 2)
-        render_text(
+        meuleaderboard.render_text(
             input_usuario,
             fonte_grande,
             (255, 255, 255),
@@ -272,7 +273,7 @@ def tela_game_over():
     Salva a pontuação na leaderboard e aguarda interação do jogador para reiniciar o jogo.
     """
     global pontos, nome
-    salva_leaderboard(nome, pontos)  # Salva os dados na leaderboard.
+    meuleaderboard.salva_leaderboard(nome, pontos)  # Salva os dados na leaderboard.
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:  # Detecta se o jogador fechou o jogo.
@@ -281,7 +282,7 @@ def tela_game_over():
         # Renderiza a tela de "Game Over".
         screen.fill((0, 0, 0))
         screen.blit(MENU_BG_IMAGE, (0, 0))
-        render_text(
+        meuleaderboard.render_text(
             "Game Over!",
             fonte_grande,
             (255, 0, 0),
@@ -290,7 +291,7 @@ def tela_game_over():
             300,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             f"Pontuação: {pontos}",
             fonte_media,
             (255, 255, 255),
@@ -299,7 +300,7 @@ def tela_game_over():
             350,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             "Pressione Enter para reiniciar",
             fonte_pequena,
             (255, 255, 255),
@@ -341,7 +342,7 @@ def tela_pause():
 
         # Renderiza a tela de pausa.
         screen.fill((0, 0, 0))
-        render_text(
+        meuleaderboard.render_text(
             "PAUSADO",
             fonte_grande,
             (255, 255, 255),
@@ -350,7 +351,7 @@ def tela_pause():
             400,
             centro=True,
         )
-        render_text(
+        meuleaderboard.render_text(
             "PRESSIONE 'p' PARA CONTINUAR.\nVOCE TERA\n3 SEGUNDOS PARA\n     VOLTAR AO JOGO.",
             fonte_pequena,
             (255, 255, 255),
@@ -376,6 +377,7 @@ def main():
     rodar = False
     evento_limpar = False
     pontos = 0
+    forcar_quadrado=False
     grid = [  # Matriz representando o tabuleiro do jogo.
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
@@ -402,7 +404,8 @@ def main():
     shape = Formato()  # Peça atual.
     nshape = Formato()  # Próxima peça.
     primeira_execucao = True
-
+    desenhos=Desenho("desenhos") #Cria objeto da classe desenho 
+    pontos_para_aumentar_velocidade=300
     while run:
         for event in pygame.event.get():  # Verifica eventos, como teclas pressionadas.
             if event.type == pygame.QUIT:  # Fecha o jogo.
@@ -421,6 +424,11 @@ def main():
                     nshape = Formato()
                 if event.key == pygame.K_z:  # Diminui a velocidade de queda.
                     delay = 0.25
+                if event.key == pygame.K_q:
+                    shape = Quadrado()  # Define a peça atual como Quadrado
+                    nshape = Quadrado() # Garante que a próxima peça também será Quadrado
+                    forcar_quadrado=True
+
                 if event.key == pygame.K_c:
                     # Limpa a penúltima linha e adiciona 100 pontos.
                     for x in range(len(grid[-2])):
@@ -434,19 +442,35 @@ def main():
                 ):  # Verifica se a peça alcançou o topo, encerrando o jogo.
                     tela_game_over()
                 else:
-                    shape.fixa_formato(grid)  # Fixa a peça na posição final.
-                    shape = nshape  # Gera nova peça.
+                    shape.fixa_formato(grid)
+                if forcar_quadrado:
+                    shape = Quadrado()
+                    nshape = Quadrado()
+                    forcar_quadrado = False
+                else:
+                    shape = nshape
                     nshape = Formato()
-                    del_linha(grid)  # Remove linhas completas.
+
+                meuleaderboard.del_linha(grid)
             if shape.pode_mover(grid):  # Move a peça para baixo se possível.
                 shape.y += 1
             else:
                 shape.fixa_formato(grid)
-                shape = nshape
-                nshape = Formato()
-                del_linha(grid)
+                if forcar_quadrado:
+                    shape = Quadrado()
+                    nshape = Quadrado()
+                    forcar_quadrado = False
+                else:
+                    shape = nshape
+                    nshape = Formato()
+
+                meuleaderboard.del_linha(grid)
+
             pontos += 1  # Incrementa pontuação.
-            desenha_grid_pygame(grid, shape, nshape)  # Atualiza a interface.
+            # Verifica se é necessário aumentar a velocidade
+            if pontos % pontos_para_aumentar_velocidade == 0:
+                delay = max(0.1, delay - 0.015)  # Reduz delay, mas nunca abaixo de 0.1
+            desenhos.desenha_grid_pygame(grid, shape, nshape)  # Atualiza a interface.
             pygame.display.update()
             time.sleep(delay)  # Atraso entre atualizações.
         else:
