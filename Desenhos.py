@@ -29,7 +29,7 @@ class Desenho:
 
 
     # Desenha a grid completa, com peças e pontuação
-    def desenha_grid_pygame(self,grid, shape, proximo_formato):
+    def desenha_grid_pygame(self,grid, shape, proximo_formato, pontos):
         screen.blit(GAME_BG_IMAGE, (0, 0))  # Copia a imagem de fundo para a tela
 
         # Desenha a grade
@@ -86,26 +86,10 @@ class Desenho:
         screen.blit(texto_pontuacao, (50, 30))
         pygame.display.update()
 
+    def aumenta_dificuldade(grid):
+        global pontos, delay
 
-    def del_linha(grid):
-        global delay, pontos, evento_limpar
-        linhas_deletar = []
-
-        # Identifica as linhas que precisam ser deletadas
-        for y in range(len(grid)):
-            if all(cell != 0 and cell != 9 for cell in grid[y]):
-                linhas_deletar.append(y)
-
-        # Deleta as linhas de forma segura
-        for y in sorted(linhas_deletar, reverse=True):
-            del grid[y]
-
-        # Insere novas linhas no topo
-        for _ in linhas_deletar:
-            grid.insert(0, [8] + [0] * 12 + [8])
-
-        # Atualiza pontuação e dificuldade
-        pontos += len(linhas_deletar) * 100
+        # Atualiza a dificuldade
         if pontos % 300 == 0 and delay > 0.01:
             delay -= 0.01
 
@@ -113,4 +97,4 @@ class Desenho:
         if pontos % 500 == 0 and pontos != 0:
             grid.pop(-2)  # Remove a penúltima linha
             grid.insert(1, [8] * 14)  # Insere linha indestrutível
-            pontos += 100
+            pontos += 100  # Adiciona pontos extras pela linha indestrutível
