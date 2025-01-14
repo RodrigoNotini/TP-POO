@@ -64,9 +64,6 @@ class Formato:
                         or new_y < 0
                         or new_y >= len(grid)
                     ):
-                        print(
-                            f"Erro de movimentação: ({new_x}, {new_y}) fora dos limites"
-                        )
                         return False
                     if grid[new_y][new_x] != 0:
                         return False

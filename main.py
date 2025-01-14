@@ -466,11 +466,12 @@ def main():
                     pontos += 100
 
         if not pause:  # Continua o jogo se não estiver em pausa.
-            if shape.y == 23 - shape.altura + 1 or not shape.pode_mover(grid):
+            if shape.y == len(grid) - shape.altura or not shape.pode_mover(grid):
                 if (
                     shape.y == 0
                 ):  # Verifica se a peça alcançou o topo, encerrando o jogo.
                     tela_game_over()
+                    pontos=0
                 else:
                     shape.fixa_formato(grid)
                 if forcar_quadrado:
