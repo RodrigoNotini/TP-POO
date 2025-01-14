@@ -320,25 +320,20 @@ def tela_game_over():
 def tela_pause():
     """
     Função responsável por exibir a tela de pausa e gerenciar o retorno ao jogo.
-    O jogador tem 3 segundos antes do jogo ser retomado.
+    O jogador tem 3 segundos antes do jogo ser retomado após pressionar 'p'.
     """
-    global pause, p
+    global pause
     pause_menu = True
     while pause_menu:
         for event in pygame.event.get():
-            if (
-                event.type == pygame.QUIT
-            ):  # Encerra o jogo caso o jogador feche a janela.
+            if event.type == pygame.QUIT:  # Encerra o jogo caso o jogador feche a janela.
                 pygame.quit()
                 sys.exit()
 
-            if (
-                event.type == pygame.KEYDOWN and event.key == pygame.K_p
-            ):  # Detecta a tecla 'p' para sair da pausa.
-                time.sleep(3)  # Pausa de 3 segundos antes de retomar o jogo.
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_p:  # Detecta a tecla 'p' para sair da pausa.
+                contagem_regressiva(3)  # Inicia a contagem regressiva de 3 segundos.
                 pause_menu = False  # Sai do menu de pausa.
                 pause = False  # Desativa o estado de pausa.
-                p = 1  # Variável auxiliar usada para controle.
 
         # Renderiza a tela de pausa.
         screen.fill((0, 0, 0))
@@ -364,6 +359,49 @@ def tela_pause():
         clock.tick(FPS)
 
 
+def contagem_regressiva(segundos):
+    """
+    Exibe uma contagem regressiva na tela.
+    """
+    while segundos > 0:
+        screen.fill((0, 0, 0))
+        meuleaderboard.render_text(
+            f"{segundos}",
+            fonte_grande,
+            (255, 255, 255),
+            screen,
+            LARGURA // 2,
+            400,
+            centro=True,
+        )
+        pygame.display.update()
+        time.sleep(1)
+        segundos -= 1
+
+class RemoveLinhas:
+    def __init__(self):
+        self.pontos = 0
+    
+    def del_linha(self, grid):
+        linhas_deletadas = 0
+        
+        # Lista para armazenar as linhas que precisam ser apagadas
+        linhas_para_remover = []
+
+        # Verifica todas as linhas e adiciona as linhas completas na lista para remoção
+        for i in range(len(grid)):
+            if all(celula != 0 for celula in grid[i]):  # Se a linha estiver cheia
+                linhas_para_remover.append(i)
+        
+        # Remove as linhas completas e adiciona novas linhas vazias no topo
+        for i in linhas_para_remover:
+            grid.pop(i)  # Remove a linha cheia
+            grid.insert(0, [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8])  # Adiciona uma linha vazia no topo
+            linhas_deletadas += 1
+
+        self.pontos += 100 * linhas_deletadas  # Adiciona 100 pontos por linha deletada
+        return linhas_deletadas  # Retorna o número de linhas deletadas
+    
 def main():
     """
     Função principal do jogo.
@@ -385,7 +423,7 @@ def main():
     forcar_Zd = False
     forcar_Ze = False
     grid = [  # Matriz representando o tabuleiro do jogo.
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
         [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
@@ -411,6 +449,7 @@ def main():
     nshape = Formato()  # Próxima peça.
     primeira_execucao = True
     desenhos=Desenho("desenhos") #Cria objeto da classe desenho 
+    leaderboard = RemoveLinhas()  # Cria o objeto que gerencia a pontuação por linhas removidas
     pontos_para_aumentar_velocidade=300
     while run:
         for event in pygame.event.get():  # Verifica eventos, como teclas pressionadas.
@@ -467,13 +506,14 @@ def main():
 
         if not pause:  # Continua o jogo se não estiver em pausa.
             if shape.y == len(grid) - shape.altura or not shape.pode_mover(grid):
-                if (
-                    shape.y == 0
-                ):  # Verifica se a peça alcançou o topo, encerrando o jogo.
+                if shape.y == 0:  # Verifica se a peça alcançou o topo, encerrando o jogo.
                     tela_game_over()
                     pontos=0
                 else:
                     shape.fixa_formato(grid)
+                    linhas_deletadas = leaderboard.del_linha(grid)  # Atualiza a pontuação ao deletar linhas
+                    pontos += 100 * linhas_deletadas  # Adiciona 100 pontos por linha deletada
+
                 if forcar_quadrado:
                     shape = Quadrado()
                     nshape = Quadrado()
@@ -506,11 +546,13 @@ def main():
                     shape = nshape
                     nshape = Formato()
 
-                meuleaderboard.del_linha(grid)
             if shape.pode_mover(grid):  # Move a peça para baixo se possível.
                 shape.y += 1
             else:
                 shape.fixa_formato(grid)
+                linhas_deletadas = leaderboard.del_linha(grid)  # Atualiza a pontuação ao deletar linhas
+                pontos += 100 * linhas_deletadas  # Adiciona 100 pontos por linha deletada
+
                 if forcar_quadrado:
                     shape = Quadrado()
                     nshape = Quadrado()
@@ -543,13 +585,11 @@ def main():
                     shape = nshape
                     nshape = Formato()
 
-                meuleaderboard.del_linha(grid)
-
-            pontos += 1  # Incrementa pontuação.
+            pontos += 1 # Incrementa pontuação.
             # Verifica se é necessário aumentar a velocidade
             if pontos % pontos_para_aumentar_velocidade == 0:
                 delay = max(0.1, delay - 0.015)  # Reduz delay, mas nunca abaixo de 0.1
-            desenhos.desenha_grid_pygame(grid, shape, nshape)  # Atualiza a interface.
+            desenhos.desenha_grid_pygame(grid, shape, nshape, pontos)  # Atualiza a interface.
             pygame.display.update()
             time.sleep(delay)  # Atraso entre atualizações.
         else:
