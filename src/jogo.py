@@ -6,7 +6,6 @@ from utils.constantes import FPS, BLOCK_SIZE
 from utils.cores import CORES
 import time
 
-
 class Jogo:
     def __init__(self, screen, fontes, imagens, leaderboard, jogador, pause, game_over):
         self.screen = screen
@@ -99,7 +98,7 @@ class Jogo:
                         ZEsquerda()
                     )  # Garante que a próxima peça também será Zesquerda
                 elif evento.key == pygame.K_p:
-                    self._toggle_pause()
+                    self._alternar_pause()
 
     def _atualizar_jogo(self):
         """Atualiza o estado do jogo."""
@@ -159,13 +158,13 @@ class Jogo:
                     pygame.draw.rect(self.screen, cor, rect)
                     pygame.draw.rect(self.screen, (40, 40, 40), rect, 1)
 
-    def _toggle_pause(self):
+    def _alternar_pause(self):
         """Alterna o estado de pausa."""
         if not self.pausa:
             self.pausa = True
-            self.pause.exibir(self._resume_game)
+            self.pause.exibir(self._retomar_jogo)
 
-    def _resume_game(self):
+    def _retomar_jogo(self):
         """Retoma o jogo após a pausa."""
         self.pausa = False
 

@@ -20,8 +20,10 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 if evento.type == pygame.KEYDOWN and evento.key == pygame.K_SPACE:
-                    if jogador.nome == "":  # Verifica se o nome do jogador está registrado
-                      jogador.registrar_nome()
+                    if (
+                        jogador.nome == ""
+                    ):  # Verifica se o nome do jogador está registrado
+                        jogador.registrar_nome()
                     return  # Inicia o jogo
 
             # Renderiza fundo

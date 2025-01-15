@@ -13,6 +13,7 @@ FORMATOS = {
 }
 FORMATOS_list = list(FORMATOS.values())
 
+
 class Peca:
     def __init__(self, formato=None):
         self.x = 6  # posicao mais a esquerda do formato no grid
@@ -21,10 +22,11 @@ class Peca:
             1, 7
         )  # um inteiro que refere a uma serie de cores pre-definidas
         self.contador = 0
-        self.formato = formato if formato else random.choice(FORMATOS_list)  # usa o formato passado ou sorteia
+        self.formato = (
+            formato if formato else random.choice(FORMATOS_list)
+        )  # usa o formato passado ou sorteia
         self.altura = len(self.formato)
         self.largura = len(self.formato[0])
-
 
     def move_esquerda(self, grid):
         if self.x > 0 and self.pode_mover(grid, dx=-1):
@@ -104,7 +106,6 @@ class Peca:
                     if grid[new_y][new_x] != 0:
                         return  # Colisão com outra peça
 
-
         # Apaga o formato antigo, aplica a rotação e desenha o novo formato
         self.apaga_formato(grid)
         self.formato = rotated_shape
@@ -112,7 +113,7 @@ class Peca:
         self.largura = new_largura
 
 
-#Subclasses da classe Peca, usadas para testes 
+# Subclasses da classe Peca, usadas para testes
 class Quadrado(Peca):
     def __init__(self):
         # Define explicitamente o formato do quadrado

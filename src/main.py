@@ -7,6 +7,7 @@ from leaderboard import LeaderBoard
 from jogo import Jogo
 from jogador import Jogador
 
+
 def carregar_imagens():
     """Carrega e redimensiona as imagens necessárias."""
     try:
@@ -18,6 +19,7 @@ def carregar_imagens():
     except pygame.error as e:
         print(f"Erro ao carregar imagens: {e}")
         sys.exit()
+
 
 def carregar_fontes():
     """Inicializa e retorna as fontes usadas no jogo."""
@@ -33,6 +35,7 @@ def carregar_fontes():
         print(f"Erro ao carregar fontes: {e}")
         sys.exit()
 
+
 def inicializar():
     """Inicializa o Pygame e carrega recursos essenciais."""
     pygame.init()
@@ -45,6 +48,7 @@ def inicializar():
     clock = pygame.time.Clock()
 
     return {"screen": screen, "clock": clock, "imagens": imagens, "fontes": fontes}
+
 
 def main():
     # Inicializa recursos
@@ -75,6 +79,6 @@ def main():
     # Inicia o jogo
     jogo.iniciar()
 
+
 if __name__ == "__main__":
     main()
-
