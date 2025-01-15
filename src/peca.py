@@ -1,8 +1,4 @@
-import pygame
 import random
-import time
-import os
-import sys
 
 # Definindo possiveis formatos do jogo
 FORMATOS = {
@@ -17,8 +13,7 @@ FORMATOS = {
 }
 FORMATOS_list = list(FORMATOS.values())
 
-
-class Formato:
+class Peca:
     def __init__(self, formato=None):
         self.x = 6  # posicao mais a esquerda do formato no grid
         self.y = 0  # posicao mais acima do formato no grid
@@ -117,51 +112,51 @@ class Formato:
         self.largura = new_largura
 
 
-#Subclasses da classe Formato, usadas para testes 
-class Quadrado(Formato):
+#Subclasses da classe Peca, usadas para testes 
+class Quadrado(Peca):
     def __init__(self):
         # Define explicitamente o formato do quadrado
         quadrado_formato = [[1, 1], [1, 1]]  # Define um quadrado 2x2
         super().__init__(formato=quadrado_formato)
 
 
-class Horizontal(Formato):
+class Horizontal(Peca):
     def __init__(self):
         horizontal_formato = [[1, 1, 1, 1]]
         super().__init__(formato=horizontal_formato)
 
 
-class Vertical(Formato):
+class Vertical(Peca):
     def __init__(self):
         vertical_formato = [[1], [1], [1], [1]]
         super().__init__(formato=vertical_formato)
 
 
-class LEsquerda(Formato):
+class LEsquerda(Peca):
     def __init__(self):
         Lesquerda_formato = [[1, 0, 0], [1, 1, 1]]
         super().__init__(formato=Lesquerda_formato)
 
 
-class LDireita(Formato):
+class LDireita(Peca):
     def __init__(self):
         Ldireita_formato = [[0, 0, 1], [1, 1, 1]]
         super().__init__(formato=Ldireita_formato)
 
 
-class ZDireita(Formato):
+class ZDireita(Peca):
     def __init__(self):
         zdireita_formato = [[0, 1, 1], [1, 1, 0]]
         super().__init__(formato=zdireita_formato)
 
 
-class ZEsquerda(Formato):
+class ZEsquerda(Peca):
     def __init__(self):
         zesquerda_formato = [[1, 1, 0], [0, 1, 1]]
         super().__init__(formato=zesquerda_formato)
 
 
-class T(Formato):
+class T(Peca):
     def __init__(self):
         t_formato = [[0, 1, 0], [1, 1, 1]]
         super().__init__(formato=t_formato)

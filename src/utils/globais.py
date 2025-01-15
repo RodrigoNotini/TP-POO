@@ -1,4 +1,3 @@
-# Variaveis Globais
 delay = 0.12
 grid = [
     [8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8],
