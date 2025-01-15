@@ -196,4 +196,4 @@ class Jogo:
     def _finalizar_jogo(self):
         """Finaliza o jogo, salva a pontuação e exibe a tela de Game Over."""
         self.leaderboard.salvar_leaderboard(self.jogador.nome, self.pontuacao)
-        self.game_over.exibir(self.pontuacao, lambda: self.jogador.registrar_nome())
+        self.game_over.exibir(self.pontuacao, lambda: self.iniciar())
