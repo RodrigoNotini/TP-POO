@@ -192,7 +192,7 @@ class GameOver(Tela):
 
             # Renderiza leaderboard atualizado
             self.leaderboard.exibir_leaderboard(
-                self.fontes["media"], (255, 255, 255), self.screen, LARGURA // 2, 250
+                self.fontes["media"], (255, 255, 255), self.screen, LARGURA // 4, 250
             )
 
             # Botão "Reiniciar"
@@ -201,7 +201,7 @@ class GameOver(Tela):
                 "media",
                 (0, 0, 0),
                 LARGURA // 2 - 50,
-                300,
+                600,
                 100,
                 50,
                 evento_click=reiniciar_callback,
@@ -218,12 +218,16 @@ class Pause(Tela):
         def continuar_jogo():
             nonlocal rodando
             rodando = False
+            continuar_callback()  # Chama o callback para retomar o jogo.
 
         while rodando:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_p:  # Detecta a tecla P
+                        continuar_jogo()
 
             # Renderiza fundo
             self.screen.fill((0, 0, 0))

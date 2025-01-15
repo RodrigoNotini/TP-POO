@@ -6,6 +6,7 @@ from utils.constantes import FPS, BLOCK_SIZE
 from utils.cores import CORES
 import time
 
+
 class Jogo:
     def __init__(self, screen, fontes, imagens, leaderboard, jogador, pause, game_over):
         self.screen = screen
@@ -27,7 +28,7 @@ class Jogo:
 
     def iniciar(self):
         """Inicia o loop principal do jogo."""
-        if not self.jogador.nome:
+        if self.jogador.nome == "":
             self.jogador.registrar_nome()
 
         self.running = True
@@ -98,9 +99,7 @@ class Jogo:
                         ZEsquerda()
                     )  # Garante que a próxima peça também será Zesquerda
                 elif evento.key == pygame.K_p:
-                    self.pausa = not self.pausa
-                    if self.pausa:
-                        self.pause.exibir(lambda: None)
+                    self._toggle_pause()
 
     def _atualizar_jogo(self):
         """Atualiza o estado do jogo."""
@@ -159,6 +158,16 @@ class Jogo:
                     )
                     pygame.draw.rect(self.screen, cor, rect)
                     pygame.draw.rect(self.screen, (40, 40, 40), rect, 1)
+
+    def _toggle_pause(self):
+        """Alterna o estado de pausa."""
+        if not self.pausa:
+            self.pausa = True
+            self.pause.exibir(self._resume_game)
+
+    def _resume_game(self):
+        """Retoma o jogo após a pausa."""
+        self.pausa = False
 
     def _desenhar_proxima_peca(self):
         """Desenha a próxima peça."""
