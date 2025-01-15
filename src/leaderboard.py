@@ -20,7 +20,7 @@ class LeaderBoard:
                 {"nome": "HENRI", "pontuacao": 60},
             ]
             with open(LEADERBOARD_FILE, "w") as f:
-                json.dump(data_inicial, f)
+                json.dump(data_inicial, f, indent=4)
 
     def carregar_leaderboard(self):
         """Carrega o leaderboard do arquivo JSON."""
@@ -38,19 +38,17 @@ class LeaderBoard:
         # Ordena por pontuação, descendente, e mantém apenas os 5 melhores
         leaderboard = sorted(leaderboard, key=lambda x: x["pontuacao"], reverse=True)[:5]
         with open(LEADERBOARD_FILE, "w") as f:
-            json.dump(leaderboard, f, indent=4)  # Indentação adicionada para legibilidade
+            json.dump(leaderboard, f, indent=4)
 
     def renderizar_texto(self, texto, fonte, cor, superficie, x, y, centro=False):
         """Renderiza texto na tela."""
-        lines = texto.split("\n")
-        for i, line in enumerate(lines):
-            textobj = fonte.render(line, True, cor)
-            textrect = textobj.get_rect()
-            if centro:
-                textrect.center = (x, y + i * 20)
-            else:
-                textrect.topleft = (x, y + i * 20)
-            superficie.blit(textobj, textrect)
+        textobj = fonte.render(texto, True, cor)
+        textrect = textobj.get_rect()
+        if centro:
+            textrect.center = (x, y)
+        else:
+            textrect.topleft = (x, y)
+        superficie.blit(textobj, textrect)
 
     def exibir_leaderboard(self, fonte, cor, superficie, x, y):
         """Exibe o leaderboard na tela."""
@@ -58,5 +56,5 @@ class LeaderBoard:
         for idx, entry in enumerate(leaderboard):
             nome = entry["nome"]
             pontuacao = entry["pontuacao"]
-            texto = f"{nome}: {pontuacao} pts"
+            texto = f"{nome}: -------------------------- {pontuacao} pts"
             self.renderizar_texto(texto, fonte, cor, superficie, x, y + idx * 30)

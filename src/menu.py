@@ -1,6 +1,5 @@
 import pygame
 import sys
-from leaderboard import LeaderBoard
 from utils.constantes import LARGURA, ALTURA
 
 
@@ -11,9 +10,11 @@ class Menu:
         self.fontes = fontes
         self.leaderboard = leaderboard
 
-    def exibir_menu(self):
+    def exibir_menu(self, tela_detalhes, tela_creditos):
         """Exibe a tela principal do menu."""
-        while True:
+        rodando = True
+
+        while rodando:
             for evento in pygame.event.get():
                 if evento.type == pygame.QUIT:
                     pygame.quit()
@@ -39,10 +40,34 @@ class Menu:
             )
 
             # Renderiza leaderboard
-            self._render_leaderboard()
+            self.leaderboard.exibir_leaderboard(
+                self.fontes["media"], (255, 255, 255), self.screen, LARGURA // 4, 320
+            )
 
             # Renderiza controles
             self._render_controles()
+
+            # Renderiza botões interativos
+            self._render_botao(
+                "CRÉDITOS",
+                "media",
+                (0, 0, 0),
+                100,
+                490,
+                120,
+                40,
+                evento_click=tela_creditos.exibir,
+            )
+            self._render_botao(
+                "DETALHES",
+                "media",
+                (0, 0, 0),
+                280,
+                490,
+                120,
+                40,
+                evento_click=tela_detalhes.exibir,
+            )
 
             pygame.display.update()
 
@@ -52,18 +77,37 @@ class Menu:
         texto_rect = texto_renderizado.get_rect(center=(x, y))
         self.screen.blit(texto_renderizado, texto_rect)
 
-    def _render_leaderboard(self):
-        leaderboard = self.leaderboard.carregar_leaderboard()
-        for idx, (player, pts) in enumerate(leaderboard):
-            texto = f"{player}: {pts} pts"
-            self._render_texto(
-                texto, "media", (255, 255, 255), LARGURA // 2, 320 + idx * 30
-            )
-
     def _render_controles(self):
         controles = "CONTROLES:\n← ou A: ESQUERDA\n→ ou D: DIREITA\n↑ ou W: ROTACIONAR\nP: PAUSAR O JOGO"
         linhas = controles.split("\n")
         for i, linha in enumerate(linhas):
             self._render_texto(
-                linha, "pequena", (255, 255, 255), LARGURA // 2, 500 + i * 20
+                linha, "pequena", (255, 255, 255), LARGURA // 2, 600 + i * 20
             )
+
+    def _render_botao(self, texto, fonte_key, cor, x, y, largura, altura, evento_click):
+        """Renderiza um botão e executa o evento de clique."""
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()[0]
+
+        # Cor do botão com hover
+        cor_fundo = (
+            (100, 100, 100)
+            if x <= mouse[0] <= x + largura and y <= mouse[1] <= y + altura
+            else (150, 150, 150)
+        )
+
+        # Renderiza botão
+        pygame.draw.rect(self.screen, cor_fundo, (x, y, largura, altura))
+
+        # Renderiza texto no botão
+        self._render_texto(texto, fonte_key, cor, x + largura // 2, y + altura // 2)
+
+        # Verifica clique
+        if (
+            click
+            and evento_click
+            and x <= mouse[0] <= x + largura
+            and y <= mouse[1] <= y + altura
+        ):
+            evento_click()

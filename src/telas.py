@@ -9,12 +9,22 @@ class Tela:
         self.fontes = fontes
         self.imagens = imagens
 
-    def render_texto(self, texto, fonte_key, cor, x, y, centro=True):
-        """Renderiza texto na tela."""
+    # def render_texto(self, texto, fonte_key, cor, x, y, centro=True):
+    #     """Renderiza texto na tela."""
+    #     fonte = self.fontes[fonte_key]
+    #     texto_renderizado = fonte.render(texto, True, cor)
+    #     texto_rect = texto_renderizado.get_rect(center=(x, y) if centro else (x, y))
+    #     self.screen.blit(texto_renderizado, texto_rect)
+
+    def render_texto(self, texto, fonte_key, cor, x, y, centro=False):
+        lines = texto.split("\n")
         fonte = self.fontes[fonte_key]
-        texto_renderizado = fonte.render(texto, True, cor)
-        texto_rect = texto_renderizado.get_rect(center=(x, y) if centro else (x, y))
-        self.screen.blit(texto_renderizado, texto_rect)
+        for i, line in enumerate(lines):
+            texto_renderizado = fonte.render(line, True, cor)
+            texto_rect = texto_renderizado.get_rect(
+                center=(x, y + i * 20) if centro else (x, y)
+            )
+            self.screen.blit(texto_renderizado, texto_rect)
 
     def render_botao(
         self, texto, fonte_key, cor, x, y, largura, altura, evento_click=None
@@ -67,28 +77,43 @@ class Detalhes(Tela):
 
             # Renderiza texto
             self.render_texto(
-                "OBJETIVO DO JOGO", "grande", (255, 255, 255), LARGURA // 2, 50
+                "OBJETIVO DO JOGO", "grande", (255, 255, 255), LARGURA // 4, 50
             )
-            objetivo = (
+            self.render_texto(
                 "Empilhe blocos para completar linhas.\n"
                 "Colete o máximo de pontos antes que o jogo termine.\n"
-                "Cada linha vale 100 pontos."
+                "Cada linha vale 100 pontos.",
+                "pequena",
+                (255, 255, 255),
+                LARGURA // 2,
+                100,
+                centro=True,
             )
-            for i, linha in enumerate(objetivo.split("\n")):
-                self.render_texto(
-                    linha, "pequena", (255, 255, 255), LARGURA // 2, 100 + i * 20
-                )
 
             self.render_texto(
-                "OBSTÁCULOS", "grande", (255, 255, 255), LARGURA // 2, 200
+                "OBSTÁCULOS", "grande", (255, 255, 255), LARGURA // 4, 200
             )
             self.render_texto(
+                "Ao longo do jogo voce sera desafiado com certos obstaculos.\n"
                 "A cada 300 pontos, o jogo fica mais rápido.\n"
                 "A cada 500 pontos, uma linha indestrutível é adicionada.",
                 "pequena",
                 (255, 255, 255),
                 LARGURA // 2,
                 250,
+                centro=True,
+            )
+
+            self.render_texto("CHEATS", "grande", (255, 255, 255), LARGURA // 4, 340)
+            self.render_texto(
+                "Aperte 'x' para passar o bloco que esta vindo.\n\nAperte 'z' para desacelerar o jogo.\n"
+                "(Efeitos especiais na pontuacao>300)\n\nAperte 'c' para destruir a linha mais ao fundo\n\nAperte 'ESC' "
+                "para ativar a tecla do chefe.",
+                "pequena",
+                (255, 255, 255),
+                LARGURA // 2,
+                390,
+                centro=True,
             )
 
             # Botão "Voltar"
@@ -97,7 +122,7 @@ class Detalhes(Tela):
                 "media",
                 (0, 0, 0),
                 LARGURA // 2 - 50,
-                400,
+                550,
                 100,
                 50,
                 evento_click=fechar_tela,

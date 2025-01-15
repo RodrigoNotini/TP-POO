@@ -27,7 +27,7 @@ def carregar_fontes():
             "titulo": pygame.font.SysFont("fixedsys", 44),
             "grande": pygame.font.SysFont("fixedsys", 32),
             "media": pygame.font.SysFont("fixedsys", 24),
-            "pequena": pygame.font.SysFont("fixedsys", 16),
+            "pequena": pygame.font.SysFont("fixedsys", 18),
         }
     except pygame.error as e:
         print(f"Erro ao carregar fontes: {e}")
@@ -70,7 +70,7 @@ def main():
     pontuacao = 0
 
     # Exibe o menu principal
-    menu.exibir_menu()
+    menu.exibir_menu(detalhes, creditos)
 
     while True:
         # Inicia o jogo (lógica do loop do jogo será integrada aqui futuramente)
