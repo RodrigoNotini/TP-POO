@@ -4,7 +4,8 @@ from telas import Detalhes, Creditos, GameOver, Pause
 from utils.constantes import LARGURA, ALTURA
 from menu import Menu
 from leaderboard import LeaderBoard
-
+from jogo import Jogo
+from jogador import Jogador
 
 def carregar_imagens():
     """Carrega e redimensiona as imagens necessárias."""
@@ -17,7 +18,6 @@ def carregar_imagens():
     except pygame.error as e:
         print(f"Erro ao carregar imagens: {e}")
         sys.exit()
-
 
 def carregar_fontes():
     """Inicializa e retorna as fontes usadas no jogo."""
@@ -33,7 +33,6 @@ def carregar_fontes():
         print(f"Erro ao carregar fontes: {e}")
         sys.exit()
 
-
 def inicializar():
     """Inicializa o Pygame e carrega recursos essenciais."""
     pygame.init()
@@ -46,7 +45,6 @@ def inicializar():
     clock = pygame.time.Clock()
 
     return {"screen": screen, "clock": clock, "imagens": imagens, "fontes": fontes}
-
 
 def main():
     # Inicializa recursos
@@ -65,39 +63,18 @@ def main():
     pause = Pause(screen, fontes, imagens)
     game_over = GameOver(screen, fontes, imagens, leaderboard)
 
-    # Estado inicial
-    jogando = False
-    pontuacao = 0
+    # Instancia o jogador
+    jogador = Jogador(screen, fontes, imagens)
+
+    # Instancia o jogo
+    jogo = Jogo(screen, fontes, imagens, leaderboard, jogador, pause, game_over)
 
     # Exibe o menu principal
-    menu.exibir_menu(detalhes, creditos)
+    menu.exibir_menu(detalhes, creditos, jogador)
 
-    while True:
-        # Inicia o jogo (lógica do loop do jogo será integrada aqui futuramente)
-        jogando = True
-        nome_jogador = "PLAYER"  # Exemplo de nome para o jogador (adicionar registro no futuro)
-
-        while jogando:
-            for evento in pygame.event.get():
-                if evento.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-
-                if evento.type == pygame.KEYDOWN:
-                    if evento.key == pygame.K_p:
-                        pause.exibir(lambda: None)  # Lógica para continuar será integrada aqui futuramente
-
-            # Simulação de lógica do jogo
-            pontuacao += 1
-            if pontuacao > 500:  # Exemplo de fim de jogo
-                leaderboard.salvar_leaderboard(nome_jogador, pontuacao)  # Salva a pontuação
-                game_over.exibir(pontuacao, main)  # Reinicia o jogo ao clicar em "Reiniciar"
-                jogando = False
-
-            # Atualiza a tela (placeholder)
-            screen.fill((0, 0, 0))
-            pygame.display.update()
-
+    # Inicia o jogo
+    jogo.iniciar()
 
 if __name__ == "__main__":
     main()
+

@@ -10,7 +10,7 @@ class Menu:
         self.fontes = fontes
         self.leaderboard = leaderboard
 
-    def exibir_menu(self, tela_detalhes, tela_creditos):
+    def exibir_menu(self, tela_detalhes, tela_creditos, jogador):
         """Exibe a tela principal do menu."""
         rodando = True
 
@@ -20,6 +20,8 @@ class Menu:
                     pygame.quit()
                     sys.exit()
                 if evento.type == pygame.KEYDOWN and evento.key == pygame.K_SPACE:
+                    if not jogador.nome:  # Verifica se o nome do jogador está registrado
+                      jogador.registrar_nome()
                     return  # Inicia o jogo
 
             # Renderiza fundo
