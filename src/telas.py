@@ -9,13 +9,6 @@ class Tela:
         self.fontes = fontes
         self.imagens = imagens
 
-    # def render_texto(self, texto, fonte_key, cor, x, y, centro=True):
-    #     """Renderiza texto na tela."""
-    #     fonte = self.fontes[fonte_key]
-    #     texto_renderizado = fonte.render(texto, True, cor)
-    #     texto_rect = texto_renderizado.get_rect(center=(x, y) if centro else (x, y))
-    #     self.screen.blit(texto_renderizado, texto_rect)
-
     def render_texto(self, texto, fonte_key, cor, x, y, centro=False):
         lines = texto.split("\n")
         fonte = self.fontes[fonte_key]

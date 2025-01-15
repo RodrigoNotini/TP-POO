@@ -20,11 +20,19 @@ class Tabuleiro:
         Remove linhas completas do grid e adiciona novas no topo.
         """
         linhas_removidas = 0
-        for y in range(len(self.grid) - 1):  # Ignora a linha inferior indestrutível
-            if all(celula != 0 and celula != 8 for celula in self.grid[y]):
-                del self.grid[y]
-                self.grid.insert(0, [8] + [0] * (self.largura - 2) + [8])
-                linhas_removidas += 1
+        linhas_para_remover = []
+
+        # Identifica as linhas completas
+        for i in range(len(self.grid) - 1):
+            if all(celula != 0 for celula in self.grid[i]):  # Se a linha estiver cheia
+                linhas_para_remover.append(i)
+
+        # Remove as linhas completas e insere novas no topo
+        for linha in linhas_para_remover:
+            self.grid.pop(linha)
+            self.grid.insert(0, [8] + [0] * (self.largura - 2) + [8])
+            linhas_removidas += 1
+
         return linhas_removidas
 
     def adicionar_peca(self, peca):
