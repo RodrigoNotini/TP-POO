@@ -1,8 +1,10 @@
 import pygame
 import sys
 from tabuleiro import Tabuleiro
-from peca import Peca
-
+from peca import Peca, Quadrado, LDireita, LEsquerda, Vertical, T, ZDireita, ZEsquerda
+from utils.constantes import FPS, BLOCK_SIZE
+from utils.cores import CORES
+import time
 
 class Jogo:
     def __init__(self, screen, fontes, imagens, leaderboard, jogador, pause, game_over):
@@ -19,7 +21,7 @@ class Jogo:
         self.peca_atual = Peca()
         self.proxima_peca = Peca()
         self.pontuacao = 0
-        self.delay = 0.5
+        self.delay = 0.12
         self.running = False
         self.pausa = False
 
@@ -40,7 +42,7 @@ class Jogo:
             if not self.pausa:
                 self._atualizar_jogo()
             self._renderizar()
-            clock.tick(60)
+            clock.tick(FPS)
 
     def _processar_eventos(self):
         """Processa eventos do jogador."""
@@ -49,15 +51,52 @@ class Jogo:
                 pygame.quit()
                 sys.exit()
             if evento.type == pygame.KEYDOWN:
-                if evento.key == pygame.K_LEFT:
+                if evento.key == pygame.K_LEFT or evento.key == pygame.K_a:
                     self.peca_atual.move_esquerda(self.tabuleiro.grid)
-                elif evento.key == pygame.K_RIGHT:
+                elif evento.key == pygame.K_RIGHT or evento.key == pygame.K_d:
                     self.peca_atual.move_direita(self.tabuleiro.grid)
-                elif evento.key == pygame.K_UP:
+                elif evento.key == pygame.K_UP or evento.key == pygame.K_w:
                     self.peca_atual.rotaciona(self.tabuleiro.grid)
                 elif evento.key == pygame.K_DOWN:
                     if self.peca_atual.pode_mover(self.tabuleiro.grid, dy=1):
                         self.peca_atual.y += 1
+                elif evento.key == pygame.K_x:
+                    self.proxima_peca = Peca()
+                elif evento.key == pygame.K_z:
+                    self.delay = 0.25
+                elif evento.key == pygame.K_q:
+                    self.peca_atual = Quadrado()  # Define a peça atual como Quadrado
+                    self.proxima_peca = (
+                        Quadrado()
+                    )  # Garante que a próxima peça também será Quadrado
+                elif evento.key == pygame.K_l:
+                    self.peca_atual = LDireita()  # Define a peça atual como LDireita
+                    self.proxima_peca = (
+                        LDireita()
+                    )  # Garante que a próxima peça também será LDireita
+                elif evento.key == pygame.K_j:
+                    self.peca_atual = LEsquerda()  # Define a peça atual como LEsquerda
+                    self.proxima_peca = (
+                        LEsquerda()
+                    )  # Garante que a próxima peça também será LEsquerda
+                elif evento.key == pygame.K_i:
+                    self.peca_atual = Vertical()  # Define a peça atual como Vertical
+                    self.proxima_peca = (
+                        Vertical()
+                    )  # Garante que a próxima peça também será Vertical
+                elif evento.key == pygame.K_t:
+                    self.peca_atual = T()  # Define a peça atual como T
+                    self.proxima_peca = T()  # Garante que a próxima peça também será T
+                elif evento.key == pygame.K_n:
+                    self.peca_atual = ZDireita()  # Define a peça atual como ZDireita
+                    self.proxima_peca = (
+                        ZDireita()
+                    )  # Garante que a próxima peça também será ZDireita
+                elif evento.key == pygame.K_b:
+                    self.peca_atual = ZEsquerda()  # Define a peça atual como ZEsquerda
+                    self.proxima_peca = (
+                        ZEsquerda()
+                    )  # Garante que a próxima peça também será Zesquerda
                 elif evento.key == pygame.K_p:
                     self.pausa = not self.pausa
                     if self.pausa:
@@ -73,8 +112,8 @@ class Jogo:
             self.pontuacao += linhas_removidas * 100
 
             # Ajusta a dificuldade
-            if self.pontuacao % 300 == 0:
-                self.delay = max(0.1, self.delay - 0.05)
+            if self.pontuacao % 600 == 0 and self.pontuacao != 0:
+                self.delay = max(0.1, self.delay - 0.015)
 
             # Verifica fim de jogo
             if not self.proxima_peca.pode_mover(self.tabuleiro.grid):
@@ -86,59 +125,66 @@ class Jogo:
 
     def _renderizar(self):
         """Renderiza o estado atual do jogo."""
-        self.screen.fill((0, 0, 0))
         self.screen.blit(self.imagens["game_bg"], (0, 0))
-        self.tabuleiro.desenhar(self.screen, self._desenhar_grid)
-        self._desenhar_peca(self.peca_atual)
+        self._desenhar_tabuleiro()
+        self._desenhar_peca_atual()
         self._desenhar_proxima_peca()
         self._desenhar_pontuacao()
+        self.pontuacao += 1
+        time.sleep(self.delay)  # Atraso entre atualizações.
         pygame.display.update()
 
-    def _desenhar_grid(self, grid, superficie):
+    def _desenhar_tabuleiro(self):
         """Desenha o grid do tabuleiro."""
-        for y, linha in enumerate(grid):
+        for y, linha in enumerate(self.tabuleiro.grid):
             for x, celula in enumerate(linha):
-                if celula:
-                    pygame.draw.rect(
-                        superficie,
-                        (200, 200, 200) if celula == 8 else (50, 50, 50),
-                        pygame.Rect(x * 30, y * 30, 30, 30),
-                        0 if celula != 8 else 1,
-                    )
+                cor = CORES[celula]
+                rect = pygame.Rect(
+                    110 + x * BLOCK_SIZE, 200 + y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE
+                )
+                pygame.draw.rect(self.screen, cor, rect)
+                pygame.draw.rect(self.screen, (40, 40, 40), rect, 1)
 
-    def _desenhar_peca(self, peca):
+    def _desenhar_peca_atual(self):
         """Desenha a peça atual."""
-        for y in range(peca.altura):
-            for x in range(peca.largura):
-                if peca.formato[y][x] == 1:
-                    pygame.draw.rect(
-                        self.screen,
-                        (0, 255, 0),
-                        pygame.Rect((peca.x + x) * 30, (peca.y + y) * 30, 30, 30),
+        for y in range(self.peca_atual.altura):
+            for x in range(self.peca_atual.largura):
+                if self.peca_atual.formato[y][x] == 1:
+                    cor = CORES[self.peca_atual.cor]
+                    rect = pygame.Rect(
+                        110 + (self.peca_atual.x + x) * BLOCK_SIZE,
+                        200 + (self.peca_atual.y + y) * BLOCK_SIZE,
+                        BLOCK_SIZE,
+                        BLOCK_SIZE,
                     )
+                    pygame.draw.rect(self.screen, cor, rect)
+                    pygame.draw.rect(self.screen, (40, 40, 40), rect, 1)
 
     def _desenhar_proxima_peca(self):
         """Desenha a próxima peça."""
-        fonte = self.fontes["media"]
-        texto = fonte.render("Próxima Peça:", True, (255, 255, 255))
-        self.screen.blit(texto, (450, 50))
-
-        for y, linha in enumerate(self.proxima_peca.formato):
-            for x, celula in enumerate(linha):
-                if celula:
-                    pygame.draw.rect(
-                        self.screen,
-                        (0, 255, 255),
-                        pygame.Rect(450 + x * 30, 100 + y * 30, 30, 30),
+        topo_proximo = 100
+        direita_proximo = 400
+        for y in range(self.proxima_peca.altura):
+            for x in range(self.proxima_peca.largura):
+                if self.proxima_peca.formato[y][x] == 1:
+                    cor = CORES[self.proxima_peca.cor]
+                    rect = pygame.Rect(
+                        direita_proximo + x * BLOCK_SIZE,
+                        topo_proximo + y * BLOCK_SIZE,
+                        BLOCK_SIZE,
+                        BLOCK_SIZE,
                     )
+                    pygame.draw.rect(self.screen, cor, rect)
+                    pygame.draw.rect(self.screen, (40, 40, 40), rect, 1)
 
     def _desenhar_pontuacao(self):
         """Exibe a pontuação atual."""
-        fonte = self.fontes["media"]
-        texto = fonte.render(f"Pontuação: {self.pontuacao}", True, (255, 255, 255))
-        self.screen.blit(texto, (450, 300))
+        texto_pontuacao = self.fontes["media"].render(
+            f"Pontuação: {self.pontuacao}", True, (255, 255, 255)
+        )
+        self.screen.blit(texto_pontuacao, (50, 30))
 
     def _finalizar_jogo(self):
         """Finaliza o jogo, salva a pontuação e exibe a tela de Game Over."""
         self.leaderboard.salvar_leaderboard(self.jogador.nome, self.pontuacao)
-        self.game_over.exibir(self.pontuacao, self.jogador.registrar_nome)
+        self.game_over.exibir(self.pontuacao, lambda: self.jogador.registrar_nome())

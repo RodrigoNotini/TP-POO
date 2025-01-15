@@ -32,4 +32,3 @@ primeira_execucao = True
 nome = ""
 ja_executou = False
 superficie_temporaria = None
-global forcar_quadrado
