@@ -21,4 +21,5 @@ Como rodar o arquivo:
 5. Rode o arquivo com o comando: python main.py
 
 Diagrama UML:
-![Diagrama UML] (TP-POO/Screenshot_15.png)
+![Diagrama UML](TP-POO/Screenshot_15.png)
+
