@@ -19,3 +19,6 @@ Como rodar o arquivo:
 3. Ative o virtual environment com o comando: source venv/bin/activate
 4. Instale o pygame com o comando: pip install pygame
 5. Rode o arquivo com o comando: python main.py
+
+Diagrama UML:
+![Diagrama UML] (TP-POO/Screenshot_15.png)
